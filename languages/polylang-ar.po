@@ -1,0 +1,643 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: EasyMultilingual v1.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2014-04-27 19:18+0200\n"
+"Last-Translator: Anas H. Sulaiman <ahs.pw>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=(n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
+"&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5);\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;"
+"_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2\n"
+"X-Poedit-Basepath: ../\n"
+"X-Textdomain-Support: yes\n"
+"X-Generator: Poedit 1.6.4\n"
+"Language: ar\n"
+"X-Poedit-SearchPath-0: .\n"
+
+# @ easyMultilingual
+#: admin/view-about.php:3
+#, php-format
+msgid ""
+"EasyMultilingual is provided with an extensive %sdocumentation%s (in English only). "
+"It includes information on how to set up your multilingual site and use it "
+"on a daily basis, a FAQ, as well as a documentation for programmers to adapt "
+"their plugins and themes."
+msgstr ""
+"تأتي EasyMultilingual مع %sتوثيق%s شامل (باللغة الإنكليزية فقط). يتضمن التوثيق "
+"معلومات عن كيفية ضبط موقعك متعدد اللغات واستخدامه اليومي، وقسماً بالأسئلة "
+"الشائعة، بالإضافة إلى توثيق خاص بالمبرمجين لضبط قوالبهم وإضافاتهم."
+
+# @ easyMultilingual
+#: admin/view-about.php:9
+#, php-format
+msgid ""
+"You will also find useful information in the %ssupport forum%s. However "
+"don't forget to make a search before posting a new topic."
+msgstr ""
+"ستجد معلومات مفيدة أيضاً في %sمنتدى الدعم%s. لكن لا تنس أن تبحث قبل أن تفتح "
+"موضوعاً جديداً."
+
+# @ easyMultilingual
+#: admin/view-about.php:16
+#, php-format
+msgid ""
+"EasyMultilingual is free of charge and is released under the same license as "
+"WordPress, the %sGPL%s."
+msgstr ""
+"EasyMultilingual إضافة مجانية، منشورة تحت رخصة ووردبرس نفسها، وهي رخصة %sGPL%s."
+
+# @ easyMultilingual
+#: admin/view-about.php:22
+#, php-format
+msgid "If you wonder how you can help the project, just %sread this%s."
+msgstr "إذا كنت تتسائل كيف يمكنك دعم المشروع، فقط %sاقرأ هذا%s."
+
+# @ easyMultilingual
+#: admin/view-about.php:27
+msgid ""
+"Finally if you like this plugin or if it helps your business, donations to "
+"the author are greatly appreciated."
+msgstr ""
+"أخيراً، إن أعجبتك هذه الإضافة أو أنها مفيدة لأعمالك، تفضل بالتبرع لكاتبها ولك "
+"كل التقدير."
+
+# @ easyMultilingual
+#: admin/admin-filters-post.php:83 admin/admin.php:73 admin/settings.php:53
+#: admin/settings.php:80 include/model.php:506
+msgid "Languages"
+msgstr "اللغات"
+
+# @ easyMultilingual
+#: include/switcher.php:22
+msgid "Displays language names"
+msgstr "يعرض أسماء اللغات"
+
+# @ easyMultilingual
+#: include/switcher.php:23
+msgid "Displays flags"
+msgstr "يعرض الأعلام"
+
+# @ easyMultilingual
+#: include/switcher.php:24
+msgid "Forces link to front page"
+msgstr "يجبر الرابط إلى الصفحة الأمامية"
+
+# @ easyMultilingual
+#: include/switcher.php:25
+msgid "Hides the current language"
+msgstr "يخفي اللغة الحالية"
+
+# @ easyMultilingual
+#: include/switcher.php:29
+msgid "Displays as dropdown"
+msgstr "يعرض قائمة منسدلة"
+
+# @ easyMultilingual
+#: admin/admin.php:252
+msgid "Filters content by language"
+msgstr "يرشح المحتوى حسب اللغة"
+
+# @ easyMultilingual
+#: admin/admin.php:243
+msgid "Show all languages"
+msgstr "اعرض كل اللغات"
+
+# @ easyMultilingual
+#: admin/admin-filters-columns.php:132 admin/admin-filters-columns.php:228
+msgid "Add new translation"
+msgstr "أضف ترجمة جديدة"
+
+# @ easyMultilingual
+#: admin/admin-filters-columns.php:169 admin/admin-filters-media.php:58
+#: admin/admin-filters-post.php:107 admin/admin-filters-term.php:75
+#: admin/admin-filters-term.php:112 include/model.php:507
+msgid "Language"
+msgstr "اللغة"
+
+# @ easyMultilingual
+#: admin/table-string.php:111 admin/view-translations-media.php:5
+#: admin/view-translations-post.php:5 admin/view-translations-term.php:6
+#: admin/view-translations-term.php:11
+msgid "Translations"
+msgstr "الترجمات"
+
+# @ easyMultilingual
+#: admin/admin-filters-term.php:77 admin/admin-filters-term.php:114
+msgid "Sets the language"
+msgstr "يضبط اللغة"
+
+# @ easyMultilingual
+#: admin/admin-filters.php:46
+msgid "The widget is displayed for:"
+msgstr "يعرض المربع الجانبي من أجل:"
+
+# @ easyMultilingual
+#: admin/admin-filters.php:49 include/model.php:508
+msgid "All languages"
+msgstr "كل اللغات"
+
+# @ easyMultilingual
+#: admin/admin-filters.php:113
+msgid "Admin language"
+msgstr "لغة لوحة الإشراف"
+
+# @ easyMultilingual
+#: admin/admin-filters.php:116
+msgid "Wordpress default"
+msgstr "افتراضي ووردبرس"
+
+# @ easyMultilingual
+#: admin/admin.php:154 admin/settings.php:85
+msgid "Settings"
+msgstr "إعدادات"
+
+# @ easyMultilingual
+#: admin/admin-filters.php:146
+msgid "Upgrading language files&#8230;"
+msgstr "تحديث ملفات اللغة&#8230;"
+
+# @ easyMultilingual
+#: admin/settings.php:45
+msgid "About EasyMultilingual"
+msgstr "عن EasyMultilingual"
+
+# @ easyMultilingual
+#: admin/settings.php:61
+msgid "Strings translations"
+msgstr "ترجمات الجمل"
+
+# @ easyMultilingual
+#: admin/settings.php:84
+msgid "Strings translation"
+msgstr "ترجمة الجمل"
+
+# @ easyMultilingual
+#: admin/admin-model.php:285
+msgid "Enter a valid WordPress locale"
+msgstr "أدخل رمز مكان صحيح متوافق مع ووردبرس"
+
+# @ easyMultilingual
+#: admin/admin-model.php:293
+msgid "The language code must be unique"
+msgstr "يجب أن يكون رمز اللغة فريداً"
+
+# @ easyMultilingual
+#: admin/admin-model.php:297
+msgid "The language must have a name"
+msgstr "يجب أن يكون للغة اسم"
+
+# @ easyMultilingual
+#: admin/admin.php:353
+msgid ""
+"The language was created, but the WordPress language file was not "
+"downloaded. Please install it manually."
+msgstr ""
+"تم إنشاء اللغة، لكن لم يتم تحميل ملف اللغة الخاص بووردبرس. رجاءً ثبته يدوياً."
+
+# @ easyMultilingual
+#: admin/settings.php:328
+msgid "Widget title"
+msgstr "عنوان المربع الجانبي"
+
+# @ easyMultilingual
+#: admin/settings.php:346
+msgid "Taxonomies"
+msgstr "الفئات"
+
+# @ easyMultilingual
+#: admin/settings.php:347
+msgid "Custom fields"
+msgstr "حقول مخصصة"
+
+# @ easyMultilingual
+#: admin/settings.php:348
+msgid "Comment status"
+msgstr "حالة التعليق"
+
+# @ easyMultilingual
+#: admin/settings.php:349
+msgid "Ping status"
+msgstr "حالة التنبيه"
+
+# @ easyMultilingual
+#: admin/settings.php:350
+msgid "Sticky posts"
+msgstr "مقالات مثبتة"
+
+# @ easyMultilingual
+#: admin/settings.php:351
+msgid "Published date"
+msgstr "تاريخ النشر"
+
+# @ easyMultilingual
+#: admin/settings.php:352
+msgid "Post format"
+msgstr "تنسيق المقالة"
+
+# @ easyMultilingual
+#: admin/settings.php:353
+msgid "Page parent"
+msgstr "أب الصفحة"
+
+# @ easyMultilingual
+#: admin/settings.php:354
+msgid "Page template"
+msgstr "قالب الصفحة"
+
+# @ easyMultilingual
+#: admin/settings.php:355
+msgid "Page order"
+msgstr "ترتيب الصفحة"
+
+# @ easyMultilingual
+#: admin/settings.php:356
+msgid "Featured image"
+msgstr "الصورة المميزة"
+
+# @ easyMultilingual
+#: admin/view-languages.php:38
+msgid "Edit language"
+msgstr "تحرير اللغة"
+
+# @ easyMultilingual
+#: admin/view-languages.php:38 admin/view-languages.php:113
+msgid "Add new language"
+msgstr "أضف لغة جديدة"
+
+# @ easyMultilingual
+#: admin/view-languages.php:54
+msgid "Choose a language"
+msgstr "اختر لغة"
+
+# @ easyMultilingual
+#: admin/view-languages.php:68
+msgid "You can choose a language in the list or directly edit it below."
+msgstr "يمكنك اختيار لغة من القائمة أو تحريرها مباشرة في الأسفل."
+
+# @ easyMultilingual
+#: admin/table-languages.php:74 admin/view-languages.php:72
+msgid "Full name"
+msgstr "الاسم الكامل"
+
+# @ easyMultilingual
+#: admin/view-languages.php:74
+msgid "The name is how it is displayed on your site (for example: English)."
+msgstr "الاسم كما سيظهر على موقعك (مثلاً: العربية)."
+
+# @ easyMultilingual
+#: admin/table-languages.php:75 admin/view-languages.php:78
+msgid "Locale"
+msgstr "المكان"
+
+# @ easyMultilingual
+#: admin/view-languages.php:83
+msgid ""
+"Wordpress Locale for the language (for example: en_US). You will need to "
+"install the .mo file for this language."
+msgstr ""
+"رمز المكان الموافق لووردبرس والخاص باللغة (مثلاً: ar_SA). سيتوجب عليك تثبيت "
+"ملف .mo لهذه اللغة."
+
+# @ easyMultilingual
+#: admin/view-languages.php:87
+msgid "Language code"
+msgstr "رمز اللغة"
+
+# @ easyMultilingual
+#: admin/view-languages.php:93
+msgid "2-letters ISO 639-1 language code (for example: en)"
+msgstr "رمز اللغة بحرفين كما يتوافق مع معيار ISO 639-1 (مثلاً: ar)"
+
+# @ easyMultilingual
+#: admin/view-languages.php:93
+msgid "Text direction"
+msgstr "جهة النص"
+
+# @ easyMultilingual
+#: admin/view-languages.php:97
+msgid "left to right"
+msgstr "من اليسر إلى اليمين"
+
+# @ easyMultilingual
+#: admin/view-languages.php:102
+msgid "right to left"
+msgstr "من اليمين إلى اليسار"
+
+# @ easyMultilingual
+#: admin/view-languages.php:104
+msgid "Choose the text direction for the language"
+msgstr "اختر جهة النص الخاصة باللغة"
+
+# @ easyMultilingual
+#: admin/table-languages.php:77 admin/view-languages.php:108
+msgid "Order"
+msgstr "الترتيب"
+
+# @ easyMultilingual
+#: admin/view-languages.php:110
+msgid "Position of the language in the language switcher"
+msgstr "موضع اللغة في مبدل اللغات"
+
+# @ easyMultilingual
+#: admin/admin-nav-menu.php:52 admin/admin-nav-menu.php:90
+#: admin/admin-nav-menu.php:93 admin/admin-nav-menu.php:124
+#: admin/admin-nav-menu.php:181 include/upgrade.php:301
+msgid "Language switcher"
+msgstr "مبدل اللغات"
+
+# @ easyMultilingual
+#: admin/view-languages.php:139
+msgid "Search translations"
+msgstr "ابحث في الترجمات"
+
+# @ easyMultilingual
+#: admin/view-languages.php:142
+msgid "Clean strings translation database"
+msgstr "نظف قاعدة بيانات ترجمة الجمل"
+
+# @ easyMultilingual
+#: admin/view-languages.php:161
+msgid "Default language"
+msgstr "اللغة الافتراضية"
+
+# @ easyMultilingual
+#: admin/view-languages.php:176
+msgid ""
+"There are posts, pages, categories or tags without language set. Do you want "
+"to set them all to default language ?"
+msgstr ""
+"هناك مقالات أو صفحات أو تصنيفات أو وسوم غير محددة اللغة. هل تريد تحديد اللغة "
+"الافتراضية كلغة لهم؟"
+
+# @ easyMultilingual
+#: admin/view-languages.php:297
+msgid "Detect browser language"
+msgstr "اكتشف لغة المتصفح"
+
+# @ easyMultilingual
+#: admin/view-languages.php:303
+msgid ""
+"When the front page is visited, set the language according to the browser "
+"preference"
+msgstr "عندما زيارة الصفحة الأمامية، اضبط اللغة وفقاً لتفضيلات المتصفح"
+
+# @ easyMultilingual
+#: admin/view-languages.php:184
+msgid "URL modifications"
+msgstr "تعديلات الرابط"
+
+# @ easyMultilingual
+#: admin/view-languages.php:241
+msgid "Hide URL language information for default language"
+msgstr "اخف معلومات اللغة في الرابط من أجل اللغة الافتراضية"
+
+# @ easyMultilingual
+#: admin/view-languages.php:310
+msgid "Media"
+msgstr "الوسائط"
+
+# @ easyMultilingual
+#: admin/view-languages.php:316
+msgid "Activate languages and translations for media"
+msgstr "فعّل اللغات والترجمات من أجل الوسائط"
+
+# @ easyMultilingual
+#: admin/view-languages.php:365
+msgid "Synchronization"
+msgstr "التزامن"
+
+# @ easyMultilingual
+#: admin/view-languages.php:324
+msgid "Custom post types"
+msgstr "أنواع المقالة المخصصة CPT"
+
+# @ easyMultilingual
+#: admin/view-languages.php:337
+msgid "Activate languages and translations for custom post types."
+msgstr "فعّل اللغات والترجمات من أجل أنواع المقالة المخصصة"
+
+# @ easyMultilingual
+#: admin/view-languages.php:344
+msgid "Custom taxonomies"
+msgstr "الفئات المخصصة"
+
+# @ easyMultilingual
+#: admin/view-languages.php:357
+msgid "Activate languages and translations for custom taxonomies."
+msgstr "فعل اللغات والترجمات من أجل الفئات المخصصة"
+
+# @ easyMultilingual
+#: admin/admin-filters-post.php:351 admin/admin-filters-term.php:502
+#: admin/table-languages.php:54 admin/view-translations-media.php:21
+msgid "Edit"
+msgstr "تحرير"
+
+# @ easyMultilingual
+#: admin/table-languages.php:60 admin/table-string.php:167
+msgid "Delete"
+msgstr "حذف"
+
+# @ easyMultilingual
+#: admin/table-languages.php:76
+msgid "Code"
+msgstr "الرمز"
+
+# @ easyMultilingual
+#: admin/table-languages.php:78
+msgid "Flag"
+msgstr "العلم"
+
+# @ easyMultilingual
+#: admin/table-languages.php:79
+msgid "Posts"
+msgstr "المقالات"
+
+# @ easyMultilingual
+#: admin/table-string.php:109
+msgid "Name"
+msgstr "الاسم"
+
+# @ easyMultilingual
+#: admin/table-string.php:110
+msgid "String"
+msgstr "الجملة"
+
+# @ easyMultilingual
+#: admin/admin-filters-post.php:375 admin/admin-filters-term.php:528
+#: admin/view-translations-media.php:30
+msgid "Add new"
+msgstr "أضف جديد"
+
+# @ easyMultilingual
+#: include/widget-languages.php:16
+msgid "Language Switcher"
+msgstr "مبدل اللغات"
+
+# @ easyMultilingual
+#: include/widget-languages.php:16
+msgid "Displays a language switcher"
+msgstr "يعرض مبدلاً للغات"
+
+# @ easyMultilingual
+#: include/widget-languages.php:100
+msgid "Title:"
+msgstr "العنوان:"
+
+# @ easyMultilingual
+#. translators: plugin header field 'Description'
+#: easyMultilingual.php:0
+msgid "Adds multilingual capability to WordPress"
+msgstr "إضافة إمكانية تعدد اللغات لووردبرس"
+
+# @ easyMultilingual
+#: easyMultilingual.php:160
+#, php-format
+msgid "You are using WordPress %s. EasyMultilingual requires at least WordPress %s."
+msgstr "أنت تستخدم ووردبرس %s. تتطلب EasyMultilingual ووردبرس %s على الأقل."
+
+# @ easyMultilingual
+#: include/upgrade.php:76
+msgid ""
+"EasyMultilingual has been deactivated because you upgraded from a too old version."
+msgstr "تم تعطيل EasyMultilingual لأنك حدثت من إصدار قديم جداً."
+
+# @ easyMultilingual
+#: include/upgrade.php:78
+#, php-format
+msgid "Please upgrade first to %s before ugrading to %s."
+msgstr "رجاء حدّث أولاً إلى الإصدار %s قبل التحديث إلى الإصدار %s."
+
+# @ easyMultilingual
+#: admin/table-string.php:108
+msgid "Group"
+msgstr "المجموعة"
+
+# @ easyMultilingual
+#: admin/table-string.php:186
+msgid "View all groups"
+msgstr "عرض كل المجموعات"
+
+# @ easyMultilingual
+#: admin/table-languages.php:59
+msgid "You are about to permanently delete this language. Are you sure?"
+msgstr "أنت على وشك حذف هذه اللغة إلى الأبد. هل أنت متأكد؟"
+
+# @ easyMultilingual
+#: admin/view-languages.php:143
+msgid ""
+"Use this to remove unused strings from database, for example after a plugin "
+"has been uninstalled."
+msgstr ""
+"استخدم هذا لإزالة الجمل غير المستخدمة من قاعدة البيانات. على سبيل المثال، "
+"عندما تحذف أحد الإضافات."
+
+# @ easyMultilingual
+#: admin/view-languages.php:374
+msgid ""
+"The synchronization options allow to maintain exact same values (or "
+"translations in the case of taxonomies and page parent) of meta content "
+"between the translations of a post or page."
+msgstr ""
+"يسمح خيار المزامنة بالحفاظ على القيم نفسها (أو الترجمات في حالة الفئات وأب "
+"الصفحة) للمحتوى التعريفي بين ترجمات مقالة أو صفحة."
+
+# @ easyMultilingual
+#: admin/admin-model.php:289
+msgid "The language code contains invalid characters"
+msgstr "يحتوي رمز اللغة على محارف خطأ"
+
+# @ easyMultilingual
+#: admin/view-languages.php:190
+msgid "The language is set from content"
+msgstr "تضبط اللغة من المحتوى"
+
+# @ easyMultilingual
+#: admin/view-languages.php:193
+msgid "Posts, pages, categories and tags urls are not modified."
+msgstr "لا تعدل روابط المقالات أو الصفحات أو التصنيفات أو الوسوم."
+
+# @ easyMultilingual
+#: admin/view-languages.php:199
+msgid "The language is set from the directory name in pretty permalinks"
+msgstr "تضبط اللغة من اسم الدليل في الروابط الدائمة الجميلة"
+
+# @ easyMultilingual
+#: admin/view-languages.php:202 admin/view-languages.php:211
+#: admin/view-languages.php:258 admin/view-languages.php:267
+msgid "Example:"
+msgstr "مثال:"
+
+# @ easyMultilingual
+#: admin/view-languages.php:208
+msgid "The language is set from the subdomain name in pretty permalinks"
+msgstr "تضبط اللغة من النطاق الفرعي في الروابط الدائمة الجميلة"
+
+# @ easyMultilingual
+#: admin/view-languages.php:217
+msgid "The language is set from different domains"
+msgstr "تضبط اللغة من نطاقات مختلفة"
+
+# @ easyMultilingual
+#: admin/view-languages.php:255
+msgid "Remove /language/ in pretty permalinks"
+msgstr "احذف /language/ من الروابط الدائمة الجميلة"
+
+# @ easyMultilingual
+#: admin/view-languages.php:264
+msgid "Keep /language/ in pretty permalinks"
+msgstr "ابق على /language/ في الروابط الدائمة الجميلة"
+
+# @ easyMultilingual
+#: admin/view-languages.php:279
+msgid ""
+"The front page url contains the language code instead of the page name or "
+"page id"
+msgstr "يتضمن رابط الصفحة الأمامية رمز اللغة بدلاً من اسم الصفحة أو رقمها"
+
+# @ easyMultilingual
+#: admin/admin-filters-term.php:143
+#, php-format
+msgid "A translation does already exist for %s"
+msgstr "يوجد ترجمة سابقة لـ %s"
+
+# @ easyMultilingual
+#: admin/view-languages.php:287
+#, php-format
+msgid "Example: %s instead of %s"
+msgstr "مثال: %s بدلاً من %s"
+
+# @ easyMultilingual
+#: admin/admin-model.php:49
+msgid "Impossible to add the language."
+msgstr "من المستحيل إضافة اللغة."
+
+# @ easyMultilingual
+#: admin/admin-model.php:73
+msgid "Language added."
+msgstr "تمت إضافة اللغة."
+
+# @ easyMultilingual
+#: admin/admin-model.php:187
+msgid "Language deleted."
+msgstr "تم حذف اللغة."
+
+# @ easyMultilingual
+#: admin/admin-model.php:268
+msgid "Language updated."
+msgstr "تم تحديث اللغة."
+
+# @ easyMultilingual
+#: admin/settings.php:203
+msgid "Translations updated."
+msgstr "تم تحديث الترجمة."
+
+# @ easyMultilingual
+#: admin/view-languages.php:89
+msgid "Language code - preferably 2-letters ISO 639-1  (for example: en)"
+msgstr "رمز اللغة - يفضل أن يكون حرفين حسب المعيار ISO 639-1 (مثلاً: ar)"
