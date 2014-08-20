@@ -70,7 +70,7 @@ EasyMultilingual 1.2 introduced major internal changes. More than ever, make a d
 
 = 1.5.4 (2014-08-13) =
 
-* Add new API functions: pll_get_post_language, pll_get_term_language, pll_translate_string
+* Add new API functions: eml_get_post_language, eml_get_term_language, eml_translate_string
 * Add better compatibility with Jetpack 3
 * Fix: attachments don't get any language when uploaded from frontend
 * Fix: authors cannot create tags
@@ -85,7 +85,7 @@ EasyMultilingual 1.2 introduced major internal changes. More than ever, make a d
 * Fix: sub-sub-options and deeper levels defined in wpml-config.xml are not translated
 * Fix: Fatal error when creating a new site when EasyMultilingual is network activated (introduced in v1.5.1)
 * Fix: Admin language forced to English when activating EasyMultilingual (before creating any new language)
-* Fix: 'pll_count_posts' second parameter not taken into account
+* Fix: 'eml_count_posts' second parameter not taken into account
 * Fix: 'edit-post' and 'create-posts' capabilities are not differentiated when saving a post
 
 = 1.5.2 (2014-06-24) =
@@ -96,7 +96,7 @@ EasyMultilingual 1.2 introduced major internal changes. More than ever, make a d
 
 = 1.5.1 (2014-06-19) =
 
-* Add: filter 'pll_settings_tabs' and action 'pll_settings_active_tab_{$tab}'
+* Add: filter 'eml_settings_tabs' and action 'eml_settings_active_tab_{$tab}'
 * Add: possibility to add a path when using multiple domains (same path for all languages)
 * Fix: Bad redirection if /language/ is added to urls (introduced in 1.5)
 * Fix: Nav menu locations are not saved in customizer (introduced in 1.4)
@@ -120,8 +120,8 @@ EasyMultilingual 1.2 introduced major internal changes. More than ever, make a d
 * Add support for Quick draft introduced in WP 3.8
 * Add support for object cache plugins for recent posts and recent comments widgets
 * Add support for pages with modified query in the language switcher (ex: when multiple post types queried on the same page)
-* Add new API functions: pll_languages_list, pll_set_post_language, pll_set_term_language, pll_save_post_translations, pll_save_term_translations, pll_count_posts
-* Add new filter pll_the_languages_args
+* Add new API functions: eml_languages_list, eml_set_post_language, eml_set_term_language, eml_save_post_translations, eml_save_term_translations, eml_count_posts
+* Add new filter eml_the_languages_args
 * Add support for ICL_LANGUAGE_CODE == 'all' on admin side
 * Fix: Galician flag
 * Fix: static page on front pagination is broken

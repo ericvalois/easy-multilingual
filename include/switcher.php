@@ -51,7 +51,7 @@ class EML_Switcher {
 			$slug = $language->slug;
 			$classes = array('lang-item', 'lang-item-' . esc_attr($id), 'lang-item-' . esc_attr($slug));
 
-			if ($current_lang = pll_current_language() == $slug) {
+			if ($current_lang = eml_current_language() == $slug) {
 				if ($hide_current && !$dropdown)
 					continue; // hide current language except for dropdown
 				else
@@ -64,7 +64,7 @@ class EML_Switcher {
 			if ($no_translation = empty($url))
 				$classes[] = 'no-translation';
 
-			$url = apply_filters('pll_the_language_link', $url, $slug, $language->locale);
+			$url = apply_filters('eml_the_language_link', $url, $slug, $language->locale);
 
 			// hide if no translation exists
 			if (empty($url) && $hide_if_no_translation)
@@ -121,7 +121,7 @@ class EML_Switcher {
 			'raw'                    => 0, // set this to true to build your own custom language switcher
 		);
 		$args = wp_parse_args($args, $defaults);
-		$args = apply_filters('pll_the_languages_args', $args);
+		$args = apply_filters('eml_the_languages_args', $args);
 		$elements = $this->get_elements($links, $args);
 
 		if ($args['raw'])
@@ -129,12 +129,12 @@ class EML_Switcher {
 
 		if ($args['dropdown']) {
 			$walker = new EML_Walker_Dropdown();
-			$args['selected'] = pll_current_language();
+			$args['selected'] = eml_current_language();
 		}
 		else
 			$walker = new EML_Walker_List();
 
-		$out = apply_filters('pll_the_languages', $walker->walk($elements, $args), $args);
+		$out = apply_filters('eml_the_languages', $walker->walk($elements, $args), $args);
 
 		if ($args['echo'])
 			echo $out;

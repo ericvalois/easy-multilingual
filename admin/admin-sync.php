@@ -21,10 +21,10 @@ class EML_Admin_Sync {
 		add_filter('wp_insert_post_parent', array(&$this, 'wp_insert_post_parent'));
 		add_action('add_meta_boxes', array(&$this, 'add_meta_boxes'), 10, 2);
 
-		add_action('pll_save_post', array(&$this, 'pll_save_post'), 10, 3);
+		add_action('eml_save_post', array(&$this, 'eml_save_post'), 10, 3);
 
 		if (in_array('taxonomies', $this->options['sync']))
-			add_action('pll_save_term', array(&$this, 'pll_save_term'), 10, 3);
+			add_action('eml_save_term', array(&$this, 'eml_save_term'), 10, 3);
 	}
 
 	/*
@@ -121,7 +121,7 @@ class EML_Admin_Sync {
 			if (!$sync || in_array($meta, $this->options['sync']))
 				$keys[] = $meta;
 
-		$keys = array_unique(apply_filters('pll_copy_post_metas', empty($keys) ? array() : $keys, $sync));
+		$keys = array_unique(apply_filters('eml_copy_post_metas', empty($keys) ? array() : $keys, $sync));
 
 		// and now copy / synchronize
 		foreach ($keys as $key) {
@@ -129,7 +129,7 @@ class EML_Admin_Sync {
 			if (isset($metas[$key])) {
 				foreach ($metas[$key] as $value) {
 					// important: always maybe_unserialize value coming from get_post_custom. See codex.
-					// thanks to goncalveshugo http://wordpress.org/support/topic/plugin-easyMultilingual-pll_copy_post_meta
+					// thanks to goncalveshugo http://wordpress.org/support/topic/plugin-easyMultilingual-eml_copy_post_meta
 					$value = maybe_unserialize($value);
 					// special case for featured images which can be translated
 					add_post_meta($to, $key, ($key == '_thumbnail_id' && $tr_value = $this->model->get_translation('post', $value, $lang)) ? $tr_value : $value);
@@ -147,7 +147,7 @@ class EML_Admin_Sync {
 	 * @param object $post post object
 	 * @param array translations post translations
 	 */
-	public function pll_save_post($post_id, $post, $translations) {
+	public function eml_save_post($post_id, $post, $translations) {
 		global $wpdb;
 
 		// prepare properties to synchronize
@@ -194,7 +194,7 @@ class EML_Admin_Sync {
 	 * @param string $taxonomy taxonomy name of the term
 	 * @param array $translations translations of the term
 	 */
-	public function pll_save_term($term_id, $taxonomy, $translations) {
+	public function eml_save_term($term_id, $taxonomy, $translations) {
 		// get all posts associated to this term
 		$posts = get_posts(array(
 			'numberposts' => -1,

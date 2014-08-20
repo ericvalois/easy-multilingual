@@ -43,11 +43,11 @@ case 'lang': ?>
 				<?php wp_nonce_field('add-lang', '_wpnonce_add-lang');
 
 				if ($action=='edit') {?>
-					<input type="hidden" name="pll_action" value="update" />
+					<input type="hidden" name="eml_action" value="update" />
 					<input type="hidden" name="lang_id" value="<?php echo esc_attr($edit_lang->term_id);?>" /><?php
 				}
 				else { ?>
-					<input type="hidden" name="pll_action" value="add" /><?php
+					<input type="hidden" name="eml_action" value="add" /><?php
 				}?>
 
 				<div class="form-field">
@@ -135,7 +135,7 @@ case 'strings': ?>
 
 <div class="form-wrap">
 	<form id="string-translation" method="post" action="admin.php?page=mlang&amp;tab=strings&amp;noheader=true">
-		<input type="hidden" name="pll_action" value="string-translation" /><?php
+		<input type="hidden" name="eml_action" value="string-translation" /><?php
 		$string_table->search_box(__('Search translations', 'easyMultilingual'), 'translations' );
 		wp_nonce_field('string-translation', '_wpnonce_string-translation');
 		$string_table->display();
@@ -153,7 +153,7 @@ case 'settings': ?><?php
 
 	<form id="options-lang" method="post" action="admin.php?page=mlang&amp;tab=settings&amp;noheader=true" class="validate">
 	<?php wp_nonce_field('options-lang', '_wpnonce_options-lang');?>
-	<input type="hidden" name="pll_action" value="options" />
+	<input type="hidden" name="eml_action" value="options" />
 
 	<table class="form-table">
 		<tr>
@@ -182,33 +182,36 @@ case 'settings': ?><?php
 
 		<tr>
 			<th rowspan = <?php echo ($page_on_front ? 3 : 2) + $using_permalinks; ?>><?php _e('URL modifications', 'easyMultilingual') ?></th>
-			<td><fieldset id='pll-force-lang'>
-				<label><?php
-					printf(
-						'<input name="force_lang" type="radio" value="0" %s /> %s',
-						$this->options['force_lang'] ? '' : 'checked="checked"',
-						__('The language is set from content', 'easyMultilingual')
-					);?>
-				</label>
-				<p class="description"><?php _e('Posts, pages, categories and tags urls are not modified.', 'easyMultilingual');?></p>
-				<label><?php
-					printf(
-						'<input name="force_lang" type="radio" value="1" %s %s/> %s',
-						$using_permalinks ? '' : 'disabled="disabled"',
-						1 == $this->options['force_lang'] ? 'checked="checked"' : '',
-						__('The language is set from the directory name in pretty permalinks', 'easyMultilingual')
-					);?>
-				</label>
-				<p class="description"><?php echo __('Example:', 'easyMultilingual') . ' <code>'.esc_html(home_url('en/my-post/')).'</code>';?></p>
-				<label><?php
-					printf(
-						'<input name="force_lang" type="radio" value="2" %s %s/> %s',
-						$using_permalinks ? '' : 'disabled="disabled"',
-						2 == $this->options['force_lang'] ? 'checked="checked"' : '',
-						__('The language is set from the subdomain name in pretty permalinks', 'easyMultilingual')
-					);?>
-				</label>
-				<p class="description"><?php echo __('Example:', 'easyMultilingual') . ' <code>'.esc_html(str_replace(array('://', 'www.'), array('://en.', ''), home_url('my-post/'))).'</code>';?></p>
+			<td><fieldset id='eml-force-lang'>
+				<p>
+                    <label><?php
+					    printf(
+						    '<input name="force_lang" type="radio" value="0" %s /> %s',
+						    $this->options['force_lang'] ? '' : 'checked="checked"',
+						    __('Posts, pages, categories and tags urls are not modified.', 'easyMultilingual')
+					    );?>
+				    </label>
+				</p>
+                <p>
+				    <label><?php
+					    printf(
+						    '<input name="force_lang" type="radio" value="1" %s %s/> %s',
+						    $using_permalinks ? '' : 'disabled="disabled"',
+						    1 == $this->options['force_lang'] ? 'checked="checked"' : '',
+						    ' <code>'.esc_html(home_url('en/my-post/')).'</code>'
+					    );?>
+				    </label>
+                </p>
+                <p>
+				    <label><?php
+					    printf(
+						    '<input name="force_lang" type="radio" value="2" %s %s/> %s',
+						    $using_permalinks ? '' : 'disabled="disabled"',
+						    2 == $this->options['force_lang'] ? 'checked="checked"' : '',
+						    ' <code>'.esc_html(str_replace(array('://', 'www.'), array('://en.', ''), home_url('my-post/'))).'</code>'
+					    );?>
+				    </label>
+                </p>
 				<label><?php
 					printf(
 						'<input name="force_lang" type="radio" value="3" %s %s/> %s',
@@ -217,11 +220,11 @@ case 'settings': ?><?php
 						__('The language is set from different domains', 'easyMultilingual')
 					);?>
 				</label>
-				<table id="pll-domains-table" <?php echo 3 == $this->options['force_lang'] ? '' : 'style="display: none;"'; ?>><?php
+				<table id="eml-domains-table" <?php echo 3 == $this->options['force_lang'] ? '' : 'style="display: none;"'; ?>><?php
 					foreach ($listlanguages as  $lg) {
 						printf(
-							'<tr><td><label for="pll-domain[%1$s]">%2$s</label></td>' .
-							'<td><input name="domains[%1$s]" id="pll-domain[%1$s]" type="text" value="%3$s" size="40" aria-required="true" %4$s /></td></tr>',
+							'<tr><td><label for="eml-domain[%1$s]">%2$s</label></td>' .
+							'<td><input name="domains[%1$s]" id="eml-domain[%1$s]" type="text" value="%3$s" size="40" aria-required="true" %4$s /></td></tr>',
 							esc_attr($lg->slug),
 							esc_attr($lg->name),
 							esc_url($lg->slug == $this->options['default_lang'] ? get_option('home') : (isset($this->options['domains'][$lg->slug]) ? $this->options['domains'][$lg->slug] : '')),
@@ -233,7 +236,7 @@ case 'settings': ?><?php
 		</tr>
 
 		<tr>
-			<td id="pll-hide-default" <?php echo 3 > $this->options['force_lang'] ? '' : 'style="display: none;"'; ?>><fieldset>
+			<td id="eml-hide-default" <?php echo 3 > $this->options['force_lang'] ? '' : 'style="display: none;"'; ?>><fieldset>
 				<label><?php
 					printf(
 						'<input name="hide_default" type="checkbox" value="1" %s /> %s',
@@ -246,7 +249,7 @@ case 'settings': ?><?php
 
 		if ($using_permalinks) { ?>
 			<tr>
-				<td id="pll-rewrite" <?php echo 2 > $this->options['force_lang'] ? '' : 'style="display: none;"'; ?>><fieldset>
+				<td id="eml-rewrite" <?php echo 2 > $this->options['force_lang'] ? '' : 'style="display: none;"'; ?>><fieldset>
 					<label><?php
 						printf(
 							'<input name="rewrite" type="radio" value="1" %s %s/> %s',
@@ -293,7 +296,7 @@ case 'settings': ?><?php
 			</tr><?php
 		} ?>
 
-		<tr id="pll-detect-browser" <?php echo 3 > $this->options['force_lang'] ? '' : 'style="display: none;"'; ?>>
+		<tr id="eml-detect-browser" <?php echo 3 > $this->options['force_lang'] ? '' : 'style="display: none;"'; ?>>
 			<th><?php _e('Detect browser language', 'easyMultilingual');?></th>
 			<td>
 				<label><?php
@@ -323,7 +326,7 @@ case 'settings': ?><?php
 			<tr>
 				<th scope="row"><?php _e('Custom post types', 'easyMultilingual') ?></th>
 				<td>
-					<ul class="pll_inline_block"><?php
+					<ul class="eml_inline_block"><?php
 						foreach ($post_types as $post_type) {
 							$pt = get_post_type_object($post_type);
 							printf(
@@ -343,7 +346,7 @@ case 'settings': ?><?php
 			<tr>
 				<th scope="row"><?php _e('Custom taxonomies', 'easyMultilingual') ?></th>
 				<td>
-					<ul class="pll_inline_block"><?php
+					<ul class="eml_inline_block"><?php
 						foreach ($taxonomies as $taxonomy) {
 							$tax = get_taxonomy($taxonomy);
 							printf(
@@ -362,7 +365,7 @@ case 'settings': ?><?php
 		<tr>
 			<th scope="row"><?php _e('Synchronization', 'easyMultilingual') ?></th>
 			<td>
-				<ul class="pll_inline_block"><?php
+				<ul class="eml_inline_block"><?php
 					foreach (self::list_metas_to_sync() as $key => $str)
 						printf(
 							'<li><label><input name="sync[%s]" type="checkbox" value="1" %s /> %s</label></li>',
@@ -383,7 +386,7 @@ case 'settings': ?><?php
 break;
 
 default:
-	do_action('pll_settings_active_tab_' . $this->active_tab);
+	do_action('eml_settings_active_tab_' . $this->active_tab);
 break;
 }?>
 

@@ -42,7 +42,7 @@ class EML_Admin_Filters_Term {
 
 		// ajax response for edit term form
 		add_action('wp_ajax_term_lang_choice', array(&$this,'term_lang_choice'));
-		add_action('wp_ajax_pll_terms_not_translated', array(&$this,'ajax_terms_not_translated'));
+		add_action('wp_ajax_eml_terms_not_translated', array(&$this,'ajax_terms_not_translated'));
 
 		// filters categories and post tags by language
 		add_filter('terms_clauses', array(&$this, 'terms_clauses'), 10, 3);
@@ -66,7 +66,7 @@ class EML_Admin_Filters_Term {
 		$lang = isset($_GET['new_lang']) ? $this->model->get_language($_GET['new_lang']) : $this->pref_lang;
 		$dropdown = new EML_Walker_Dropdown();
 
-		wp_nonce_field('pll_language', '_pll_nonce');
+		wp_nonce_field('eml_language', '_eml_nonce');
 
 		printf('
 			<div class="form-field">
@@ -101,7 +101,7 @@ class EML_Admin_Filters_Term {
 		$post_type = isset($GLOBALS['post_type']) ? $GLOBALS['post_type'] : $_REQUEST['post_type'];
 		$dropdown = new EML_Walker_Dropdown();
 
-		wp_nonce_field('pll_language', '_pll_nonce');
+		wp_nonce_field('eml_language', '_eml_nonce');
 
 		printf('
 			<tr class="form-field">
@@ -198,7 +198,7 @@ class EML_Admin_Filters_Term {
 				check_ajax_referer($_POST['action'], '_ajax_nonce-add-' . $taxonomy); // category metabox
 
 			else
-				check_admin_referer('pll_language', '_pll_nonce'); // edit tags or tags metabox
+				check_admin_referer('eml_language', '_eml_nonce'); // edit tags or tags metabox
 
 			$this->model->set_term_language($term_id, $_POST['term_lang_choice']);
 		}
@@ -215,7 +215,7 @@ class EML_Admin_Filters_Term {
 
 		// edit post
 		elseif (isset($_POST['post_lang_choice'])) {// FIXME should be useless now
-			check_admin_referer('pll_language', '_pll_nonce');
+			check_admin_referer('eml_language', '_eml_nonce');
 			$this->model->set_term_language($term_id, $_POST['post_lang_choice']);
 		}
 
@@ -234,7 +234,7 @@ class EML_Admin_Filters_Term {
 	protected function save_translations($term_id) {
 		// security check
 		// as 'wp_update_term' can be called from outside WP admin
-		check_admin_referer('pll_language', '_pll_nonce');
+		check_admin_referer('eml_language', '_eml_nonce');
 
 		// save translations after checking the translated term is in the right language (as well as cast id to int)
 		foreach ($_POST['term_tr_lang'] as $lang => $tr_id) {
@@ -277,7 +277,7 @@ class EML_Admin_Filters_Term {
 		else
 			$this->set_default_language($term_id, $taxonomy);
 
-		do_action('pll_save_term', $term_id, $taxonomy, empty($translations) ? $this->model->get_translations('term', $term_id) : $translations);
+		do_action('eml_save_term', $term_id, $taxonomy, empty($translations) ? $this->model->get_translations('term', $term_id) : $translations);
 	}
 
 	/*
@@ -340,7 +340,7 @@ class EML_Admin_Filters_Term {
 	 * @since 0.2
 	 */
 	public function term_lang_choice() {
-		check_ajax_referer('pll_language', '_pll_nonce');
+		check_ajax_referer('eml_language', '_eml_nonce');
 
 		$lang = $this->model->get_language($_POST['lang']);
 		$term_id = isset($_POST['term_id']) ? $_POST['term_id'] : null;
@@ -392,13 +392,13 @@ class EML_Admin_Filters_Term {
 	 * @since 1.5
 	 */
 	public function ajax_terms_not_translated() {
-		check_ajax_referer('pll_language', '_pll_nonce');
+		check_ajax_referer('eml_language', '_eml_nonce');
 
 		$return = array();
 
 		// it is more efficient to use one common query for all languages as soon as there are more than 2
-		// pll_get_terms_not_translated arg to identify this query in terms_clauses filter
-		foreach (get_terms($_REQUEST['taxonomy'], 'hide_empty=0&pll_get_terms_not_translated=1&name__like=' . $_REQUEST['term']) as $term) {
+		// eml_get_terms_not_translated arg to identify this query in terms_clauses filter
+		foreach (get_terms($_REQUEST['taxonomy'], 'hide_empty=0&eml_get_terms_not_translated=1&name__like=' . $_REQUEST['term']) as $term) {
 			$lang = $this->model->get_term_language($term->term_id);
 
 			if ($lang && $lang->slug == $_REQUEST['translation_language'] && !$this->model->get_translation('term', $term->term_id, $_REQUEST['term_language']))
@@ -455,7 +455,7 @@ class EML_Admin_Filters_Term {
 			return $clauses;
 
 		// do not filter 'get_terms_not_translated'
-		if (!empty($args['pll_get_terms_not_translated']))
+		if (!empty($args['eml_get_terms_not_translated']))
 			return $clauses;
 
 		// The only ajax response I want to deal with is when changing the language in post metabox
@@ -548,8 +548,8 @@ class EML_Admin_Filters_Term {
 		$results = $wpdb->get_col( $wpdb->prepare(
 			"SELECT t.name FROM $wpdb->term_taxonomy AS tt
 			INNER JOIN $wpdb->terms AS t ON tt.term_id = t.term_id
-			INNER JOIN $wpdb->term_relationships AS pll_tr ON pll_tr.object_id = t.term_id
-			WHERE tt.taxonomy = %s AND t.name LIKE (%s) AND pll_tr.term_taxonomy_id = %d",
+			INNER JOIN $wpdb->term_relationships AS eml_tr ON eml_tr.object_id = t.term_id
+			WHERE tt.taxonomy = %s AND t.name LIKE (%s) AND eml_tr.term_taxonomy_id = %d",
 			$taxonomy, '%' . like_escape( $s ) . '%', $lang->tl_term_taxonomy_id ) );
 
 		echo join( $results, "\n" );
@@ -590,7 +590,7 @@ class EML_Admin_Filters_Term {
 	 */
 	public function edit_translation_link($term_id, $taxonomy, $post_type) {
 		return sprintf(
-			'<a href="%1$s" class="pll_icon_edit title="%2$s"></a></td>',
+			'<a href="%1$s" class="eml_icon_edit title="%2$s"></a></td>',
 			esc_url(get_edit_term_link($term_id, $taxonomy, $post_type)),
 			__('Edit','easyMultilingual')
 		);

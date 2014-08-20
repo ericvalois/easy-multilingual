@@ -41,7 +41,7 @@ class EML_Settings {
 			case 'lang':
 				if (!defined('EML_DISPLAY_ABOUT') || EML_DISPLAY_ABOUT) {
 					add_meta_box(
-						'pll_about_box',
+						'eml_about_box',
 						__('About EasyMultilingual', 'easyMultilingual'),
 						create_function('', "include(EML_ADMIN_INC.'/view-about.php');"),
 						'settings_page_mlang',
@@ -52,7 +52,7 @@ class EML_Settings {
 				add_screen_option('per_page', array(
 					'label'   => __('Languages', 'easyMultilingual'),
 					'default' => 10,
-					'option'  => 'pll_lang_per_page'
+					'option'  => 'eml_lang_per_page'
 				));
 				break;
 
@@ -60,7 +60,7 @@ class EML_Settings {
 				add_screen_option('per_page', array(
 					'label'   => __('Strings translations', 'easyMultilingual'),
 					'default' => 10,
-					'option'  => 'pll_strings_per_page'
+					'option'  => 'eml_strings_per_page'
 				));
 				break;
 
@@ -85,7 +85,7 @@ class EML_Settings {
 			$tabs['settings'] = __('Settings', 'easyMultilingual');
 		}
 
-		$tabs = apply_filters('pll_settings_tabs', $tabs);
+		$tabs = apply_filters('eml_settings_tabs', $tabs);
 
 		switch($this->active_tab) {
 			case 'lang':
@@ -112,7 +112,7 @@ class EML_Settings {
 				// load translations
 				foreach ($listlanguages as $language) {
 					// filters by language if requested
-					if (($lg = get_user_meta(get_current_user_id(), 'pll_filter_content', true)) && $language->slug != $lg)
+					if (($lg = get_user_meta(get_current_user_id(), 'eml_filter_content', true)) && $language->slug != $lg)
 						continue;
 
 					$mo = new EML_MO();
@@ -130,11 +130,11 @@ class EML_Settings {
 			case 'settings':
 				$post_types = get_post_types(array('public' => true, '_builtin' => false));
 				$post_types = array_diff($post_types, get_post_types(array('_pll' => true)));
-				$post_types = array_unique(apply_filters('pll_get_post_types', $post_types, true));
+				$post_types = array_unique(apply_filters('eml_get_post_types', $post_types, true));
 
 				$taxonomies = get_taxonomies(array('public' => true, '_builtin' => false));
 				$taxonomies = array_diff($taxonomies, get_taxonomies(array('_pll' => true)));
-				$taxonomies = array_unique(apply_filters('pll_get_taxonomies', $taxonomies , true));
+				$taxonomies = array_unique(apply_filters('eml_get_taxonomies', $taxonomies , true));
 				break;
 
 			default:
@@ -143,7 +143,7 @@ class EML_Settings {
 
 		$using_permalinks = $GLOBALS['wp_rewrite']->using_permalinks();
 
-		$action = isset($_REQUEST['pll_action']) ? $_REQUEST['pll_action'] : '';
+		$action = isset($_REQUEST['eml_action']) ? $_REQUEST['eml_action'] : '';
 
 		switch ($action) {
 			case 'add':
@@ -202,10 +202,10 @@ class EML_Settings {
 
 						isset($new_mo) ? $new_mo->export_to_db($language) : $mo->export_to_db($language);
 					}
-					add_settings_error('general', 'pll_strings_translations_updated', __('Translations updated.', 'easyMultilingual'), 'updated');
+					add_settings_error('general', 'eml_strings_translations_updated', __('Translations updated.', 'easyMultilingual'), 'updated');
 				}
 
-				do_action('pll_save_strings_translations');
+				do_action('eml_save_strings_translations');
 
 				// unregisters strings registered through WPML API
 				if ($string_table->current_action() == 'delete' && !empty($_REQUEST['strings']) && function_exists('icl_unregister_string')) {
@@ -326,13 +326,13 @@ class EML_Settings {
 				$widget_settings = $wp_registered_widgets[$widget]['callback'][0]->get_settings();
 				$number = $wp_registered_widgets[$widget]['params'][0]['number'];
 				// don't enable widget title translation if the widget is visible in only one language or if there is no title
-				if (empty($widget_settings[$number]['pll_lang']) && isset($widget_settings[$number]['title']) && $title = $widget_settings[$number]['title'])
+				if (empty($widget_settings[$number]['eml_lang']) && isset($widget_settings[$number]['title']) && $title = $widget_settings[$number]['title'])
 					$this->register_string(__('Widget title', 'easyMultilingual'), $title, 'Widget');
 			}
 		}
 
 		// allow plugins to modify our list of strings, mainly for use by our EML_WPML_Compat class
-		$this->strings = apply_filters('pll_get_strings', $this->strings);
+		$this->strings = apply_filters('eml_get_strings', $this->strings);
 		return $this->strings;
 	}
 

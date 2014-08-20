@@ -71,7 +71,7 @@ class EML_Admin_Filters_Media extends EML_Admin_Filters_Post_Base {
 	 * @since 0.9
 	 */
 	public function media_lang_choice() {
-		check_ajax_referer('pll_language', '_pll_nonce');
+		check_ajax_referer('eml_language', '_eml_nonce');
 
 		preg_match('#([0-9]+)#', $_POST['post_id'], $matches);
 		$post_id = $matches[1];

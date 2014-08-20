@@ -35,7 +35,7 @@ class EML_Widget_Recent_Posts extends WP_Widget_Recent_Posts {
 			$args['widget_id'] = $this->id;
 		}
 
-		$lang = pll_current_language(); #added
+		$lang = eml_current_language(); #added
 		if ( isset( $cache[ $args['widget_id'] ] [$lang] ) ) { #modified#
 			echo $cache[ $args['widget_id'] ] [$lang]; #modified#
 			return;

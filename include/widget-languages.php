@@ -26,7 +26,7 @@ class EML_Widget_Languages extends WP_Widget {
 	 */
 	function widget($args, $instance) {
 		global $easyMultilingual;
-		if (!(isset($easyMultilingual) && $easyMultilingual->model->get_languages_list() && $list = pll_the_languages(array_merge($instance, array('echo' => 0)))))
+		if (!(isset($easyMultilingual) && $easyMultilingual->model->get_languages_list() && $list = eml_the_languages(array_merge($instance, array('echo' => 0)))))
 			return;
 
 		extract($args);
@@ -138,7 +138,7 @@ class EML_Widget_Languages extends WP_Widget {
 			<script type='text/javascript'>
 				//<![CDATA[
 				jQuery(document).ready(function($) {
-					function pll_toggle(a, test) {
+					function eml_toggle(a, test) {
 						test ? a.show() : a.hide();
 					}
 
@@ -148,7 +148,7 @@ class EML_Widget_Languages extends WP_Widget {
 
 						// remove all options if dropdown is checked
 						$('#widget-'+this_id+'-dropdown').change(function() {
-							pll_toggle($('.no-dropdown-'+this_id), 'checked' != $(this).attr('checked'));
+							eml_toggle($('.no-dropdown-'+this_id), 'checked' != $(this).attr('checked'));
 						});
 
 						// disallow unchecking both show names and show flags

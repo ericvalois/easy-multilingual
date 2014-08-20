@@ -92,7 +92,7 @@ class EML_Upgrade {
 			if (version_compare($this->options['version'], $version, '<'))
 				call_user_func(array(&$this, 'upgrade_' . str_replace('.', '_', $version)));
 
-		if (absint(get_transient('pll_upgrade_1_4')) < time())
+		if (absint(get_transient('eml_upgrade_1_4')) < time())
 			$this->delete_pre_1_2_data();
 
 		$this->options['version'] = EASYMULTILINGUAL_VERSION;
@@ -179,7 +179,7 @@ class EML_Upgrade {
 			wp_update_term((int) $lang->term_id, 'language', array('description' => $desc));
 
 			// add language to new 'term_language' taxonomy
-			$term_lang = wp_insert_term($lang->name, 'term_language', array('slug' => 'pll_' . $lang->slug));
+			$term_lang = wp_insert_term($lang->name, 'term_language', array('slug' => 'eml_' . $lang->slug));
 			$lang_tt_ids[$lang->term_id] = $term_lang['term_taxonomy_id']; // keep the term taxonomy id for future
 		}
 
@@ -206,7 +206,7 @@ class EML_Upgrade {
 				continue;
 
 			foreach ($objects as $obj) {
-				$term = uniqid('pll_'); // the term name
+				$term = uniqid('eml_'); // the term name
 				$terms[] = $wpdb->prepare('("%1$s", "%1$s")', $term);
 				$slugs[] = $wpdb->prepare('"%s"', $term);
 				$translations = maybe_unserialize(maybe_unserialize($obj)); // 2 unserialize due to an old storage bug
@@ -299,11 +299,11 @@ class EML_Upgrade {
 						if (!empty($has_switcher)) {
 							$menu_item_db_id = wp_update_nav_menu_item($translations[$lang->slug], 0, array(
 								'menu-item-title' => __('Language switcher', 'easyMultilingual'),
-								'menu-item-url' => '#pll_switcher',
+								'menu-item-url' => '#eml_switcher',
 								'menu-item-status' => 'publish'
 							));
 
-							update_post_meta($menu_item_db_id, '_pll_menu_item', $switch_options);
+							update_post_meta($menu_item_db_id, '_eml_menu_item', $switch_options);
 						}
 					}
 				}
@@ -334,7 +334,7 @@ class EML_Upgrade {
 				// get the multilingual locations
 				foreach ($menus as $loc => $menu) {
 					foreach (get_terms('language', array('hide_empty' => 0)) as $lang) {
-						$arr[$loc][$lang->slug] = pll_get_term($menu, $lang);
+						$arr[$loc][$lang->slug] = eml_get_term($menu, $lang);
 					}
 				}
 
@@ -371,8 +371,8 @@ class EML_Upgrade {
 	 * @since 1.4
 	 */
 	protected function upgrade_1_4() {
-		set_transient('pll_upgrade_1_4', time() + 60 * 24 * 60 * 60); // 60 days
-		delete_transient('pll_languages_list');
+		set_transient('eml_upgrade_1_4', time() + 60 * 24 * 60 * 60); // 60 days
+		delete_transient('eml_languages_list');
 	}
 
 	/*
@@ -403,7 +403,7 @@ class EML_Upgrade {
 		foreach ($languages as $lang)
 			delete_option('easyMultilingual_mo'.$lang->term_id);
 
-		delete_transient('pll_upgrade_1_4');
+		delete_transient('eml_upgrade_1_4');
 	}
 
 	/*
@@ -429,7 +429,7 @@ class EML_Upgrade {
 				$obj = $widget['callback'][0];
 				if (is_object($obj) && method_exists($obj, 'get_settings') && method_exists($obj, 'save_settings')) {
 					$settings = $obj->get_settings();
-					$settings[$widget['params'][0]['number']]['pll_lang'] = $this->options['widgets'][$widget['id']];
+					$settings[$widget['params'][0]['number']]['eml_lang'] = $this->options['widgets'][$widget['id']];
 					$obj->save_settings($settings);
 				}
 			}
@@ -444,7 +444,7 @@ class EML_Upgrade {
 	 * @since 1.5
 	 */
 	protected function upgrade_1_5() {
-		delete_transient('pll_languages_list');
+		delete_transient('eml_languages_list');
 	}
 
 }

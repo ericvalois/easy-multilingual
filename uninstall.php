@@ -57,8 +57,8 @@ class EML_Uninstall {
 
 
 		// need to register the taxonomies
-		$pll_taxonomies = array('language', 'term_language', 'post_translations', 'term_translations');
-		foreach ($pll_taxonomies as $taxonomy)
+		$eml_taxonomies = array('language', 'term_language', 'post_translations', 'term_translations');
+		foreach ($eml_taxonomies as $taxonomy)
 			register_taxonomy($taxonomy, null , array('label' => false, 'public' => false, 'query_var' => false, 'rewrite' => false));
 
 
@@ -67,7 +67,7 @@ class EML_Uninstall {
 		// delete users options
 		foreach (get_users(array('fields' => 'ID')) as $user_id) {
 			delete_user_meta($user_id, 'user_lang');
-			delete_user_meta($user_id, 'pll_filter_content');
+			delete_user_meta($user_id, 'eml_filter_content');
 			foreach ($languages as $lang)
 				delete_user_meta($user_id, 'description_'.$lang->slug);
 		}
@@ -78,7 +78,7 @@ class EML_Uninstall {
 			'numberposts' => -1,
 			'nopaging'    => true,
 			'fields'      => 'ids',
-			'meta_key'    => '_pll_menu_item'
+			'meta_key'    => '_eml_menu_item'
 		));
 
 		foreach ($ids as $id)
@@ -101,7 +101,7 @@ class EML_Uninstall {
 			wp_delete_post($id, true);
 
 		// delete all what is related to languages and translations
-		foreach (get_terms($pll_taxonomies, array('hide_empty'=>false)) as $term) {
+		foreach (get_terms($eml_taxonomies, array('hide_empty'=>false)) as $term) {
 			$term_ids[] = (int) $term->term_id;
 			$tt_ids[] = (int) $term->term_taxonomy_id;
 		}
@@ -123,8 +123,8 @@ class EML_Uninstall {
 		delete_option('easyMultilingual_wpml_strings'); // strings registered with icl_register_string
 
 		//delete transients
-		delete_transient('pll_languages_list');
-		delete_transient('pll_upgrade_1_4');
+		delete_transient('eml_languages_list');
+		delete_transient('eml_upgrade_1_4');
 	}
 }
 

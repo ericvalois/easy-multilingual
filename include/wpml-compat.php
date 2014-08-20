@@ -11,7 +11,7 @@
  *
  * @since 0.9.5
  */
-function pll_define_wpml_constants() {
+function eml_define_wpml_constants() {
 	global $easyMultilingual;
 
 	if (!empty($easyMultilingual->curlang)) {
@@ -31,7 +31,7 @@ function pll_define_wpml_constants() {
 	}
 }
 
-add_action('pll_language_defined', 'pll_define_wpml_constants');
+add_action('eml_language_defined', 'eml_define_wpml_constants');
 
 /*
  * link to the home page in the active language
@@ -42,7 +42,7 @@ add_action('pll_language_defined', 'pll_define_wpml_constants');
  */
 if (!function_exists('icl_get_home_url')) {
 	function icl_get_home_url() {
-		return pll_home_url();
+		return eml_home_url();
 	}
 }
 
@@ -127,7 +127,7 @@ if (!function_exists('icl_link_to_element')) {
 		if ($type == 'tag')
 			$type = 'post_tag';
 
-		if (isset($easyMultilingual) && ($lang = pll_current_language()) && ($tr_id = $easyMultilingual->model->get_translation($type, $id, $lang)) && $easyMultilingual->links->current_user_can_read($tr_id))
+		if (isset($easyMultilingual) && ($lang = eml_current_language()) && ($tr_id = $easyMultilingual->model->get_translation($type, $id, $lang)) && $easyMultilingual->links->current_user_can_read($tr_id))
 			$id = $tr_id;
 
 		if (post_type_exists($type)) {
@@ -168,7 +168,7 @@ if (!function_exists('icl_link_to_element')) {
 if (!function_exists('icl_object_id')) {
 	function icl_object_id($id, $type, $return_original_if_missing = false, $lang = false) {
 		global $easyMultilingual;
-		return isset($easyMultilingual) && ($lang = $lang ? $lang : pll_current_language()) && ($tr_id = $easyMultilingual->model->get_translation($type, $id, $lang)) ? $tr_id :
+		return isset($easyMultilingual) && ($lang = $lang ? $lang : eml_current_language()) && ($tr_id = $easyMultilingual->model->get_translation($type, $id, $lang)) ? $tr_id :
 			($return_original_if_missing ? $id : null);
 	}
 }
@@ -184,7 +184,7 @@ if (!function_exists('icl_object_id')) {
  */
 if (!function_exists('icl_register_string')) {
 	function icl_register_string($context, $name, $string) {
-		$GLOBALS['pll_wpml_compat']->register_string($context, $name, $string);
+		$GLOBALS['eml_wpml_compat']->register_string($context, $name, $string);
 	}
 }
 
@@ -198,12 +198,12 @@ if (!function_exists('icl_register_string')) {
  */
 if (!function_exists('icl_unregister_string')) {
 	function icl_unregister_string($context, $name) {
-		$GLOBALS['pll_wpml_compat']->unregister_string($context, $name);
+		$GLOBALS['eml_wpml_compat']->unregister_string($context, $name);
 	}
 }
 
 /*
- * gets the translated value of a string (previously registered with icl_register_string or pll_register_string)
+ * gets the translated value of a string (previously registered with icl_register_string or eml_register_string)
  *
  * @since 0.9.3
  *
@@ -214,7 +214,7 @@ if (!function_exists('icl_unregister_string')) {
  */
 if (!function_exists('icl_t')) {
 	function icl_t($context, $name, $string) {
-		return pll__($string);
+		return eml__($string);
 	}
 }
 
@@ -233,8 +233,8 @@ if (!function_exists('icl_t')) {
  */
 if (!function_exists('icl_translate')) {
 	function icl_translate($context, $name, $string, $bool) {
-		$GLOBALS['pll_wpml_compat']->register_string($context, $name, $string);
-		return pll__($string);
+		$GLOBALS['eml_wpml_compat']->register_string($context, $name, $string);
+		return eml__($string);
 	}
 }
 
@@ -259,7 +259,7 @@ if (!function_exists('wpml_get_copied_fields_for_post_edit')) {
 				unset ($keys[$k]);
 
 		// apply our filter and fill the expected output (see /types/embedded/includes/fields-post.php)
-		$arr['fields'] = array_unique(apply_filters('pll_copy_post_metas', empty($keys) ? array() : $keys, false));
+		$arr['fields'] = array_unique(apply_filters('eml_copy_post_metas', empty($keys) ? array() : $keys, false));
 		$arr['original_post_id'] = (int) $_GET['from_post'];
 		return $arr;
 	}
@@ -274,7 +274,7 @@ if (!function_exists('wpml_get_copied_fields_for_post_edit')) {
  */
 if (!function_exists('icl_get_default_language')) {
 	function icl_get_default_language() {
-		return pll_default_language();
+		return eml_default_language();
 	}
 }
 
@@ -292,11 +292,11 @@ class EML_WPML_Compat {
 	 * @since 1.0.2
 	 */
 	public function __construct() {
-		add_action('pll_get_strings', array(&$this, 'get_strings'));
+		add_action('eml_get_strings', array(&$this, 'get_strings'));
 	}
 
 	/*
-	 * unlike pll_register_string, icl_register_string stores the string in database
+	 * unlike eml_register_string, icl_register_string stores the string in database
 	 * so we need to do the same as some plugins or themes may expect this
 	 * we use a serialized option to do this
 	 *
@@ -339,7 +339,7 @@ class EML_WPML_Compat {
 	}
 
 	/*
-	 * adds strings registered by icl_register_string to those registered by pll_register_string
+	 * adds strings registered by icl_register_string to those registered by eml_register_string
 	 *
 	 * @since 1.0.2
 	 *
@@ -354,7 +354,7 @@ class EML_WPML_Compat {
 	}
 } // class EML_WPML_Compat
 
-$GLOBALS['pll_wpml_compat'] = new EML_WPML_Compat;
+$GLOBALS['eml_wpml_compat'] = new EML_WPML_Compat;
 
 /*
  * reads and interprets the file wpml-config.xml
@@ -496,13 +496,13 @@ class EML_WPML_Config {
  			$this->xml_parse(file_get_contents($file), 'easyMultilingual');
 
 		if (isset($this->wpml_config['custom-fields']))
-			add_filter('pll_copy_post_metas', array(&$this, 'copy_post_metas'), 10, 2);
+			add_filter('eml_copy_post_metas', array(&$this, 'copy_post_metas'), 10, 2);
 
 		if (isset($this->wpml_config['custom-types']))
-			add_filter('pll_get_post_types', array(&$this, 'translate_types'), 10, 2);
+			add_filter('eml_get_post_types', array(&$this, 'translate_types'), 10, 2);
 
 		if (isset($this->wpml_config['taxonomies']))
-			add_filter('pll_get_taxonomies', array(&$this, 'translate_taxonomies'), 10, 2);
+			add_filter('eml_get_taxonomies', array(&$this, 'translate_taxonomies'), 10, 2);
 
 		if (!isset($this->wpml_config['admin-texts']))
 			return;
@@ -517,7 +517,7 @@ class EML_WPML_Config {
 				if (EML_ADMIN) { // backend
 					$option = get_option($option_name);
 					if (is_string($option) && $value == 1)
-						pll_register_string($option_name, $option, $context);
+						eml_register_string($option_name, $option, $context);
 					elseif (is_array($option) && is_array($value))
 						$this->register_string_recursive($context, $value, $option); // for a serialized option
 				}
@@ -560,7 +560,7 @@ class EML_WPML_Config {
 		foreach ($options as $name => $value) {
 			if (isset($strings[$name])) {
 				if (is_string($value) && $strings[$name] == 1)
-					pll_register_string($name, $value, $context);
+					eml_register_string($name, $value, $context);
 				elseif (is_array($value) && is_array($strings[$name]))
 					$this->register_string_recursive($context, $strings[$name], $value);
 			}
@@ -651,7 +651,7 @@ class EML_WPML_Config {
 					return $this->translate_strings_recursive($options[$option], $value); // for a serialized option
 			}
 		}
-		return pll__($value);
+		return eml__($value);
 	}
 
 	/*
@@ -667,7 +667,7 @@ class EML_WPML_Config {
 		foreach ($values as $name => $value) {
 			if (isset($strings[$name])) {
 				if (is_string($value) && $strings[$name] == 1)
-					$values[$name] = pll__($value);
+					$values[$name] = eml__($value);
 				elseif (is_array($value) && is_array($strings[$name]))
 					$values[$name] = $this->translate_strings_recursive($strings[$name], $value);
 			}

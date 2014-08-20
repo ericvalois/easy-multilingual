@@ -1,7 +1,7 @@
 jQuery(document).ready(function($) {
 	$('#update-nav-menu').bind('click', function(e) {
 		if ( e.target && e.target.className && -1 != e.target.className.indexOf('item-edit')) {
-			$("input[value='#pll_switcher'][type=text]").parent().parent().parent().each( function(){
+			$("input[value='#eml_switcher'][type=text]").parent().parent().parent().each( function(){
 				var item = $(this).attr('id').substring(19);
 				// remove default fields we don't need
 				$(this).children('.description-thin,.field-link-target,.field-description,.field-url').remove();
@@ -9,21 +9,21 @@ jQuery(document).ready(function($) {
 						type: 'hidden',
 						id: 'edit-menu-item-title-'+item,
 						name: 'menu-item-title['+item+']',
-						value: pll_data.strings[4]
+						value: eml_data.strings[4]
 				});
 				$(this).append(h);
 				h = $('<input>').attr({
 						type: 'hidden',
 						id: 'edit-menu-item-url-'+item,
 						name: 'menu-item-url['+item+']',
-						value: '#pll_switcher'
+						value: '#eml_switcher'
 				});
 				$(this).append(h);
 				// a hidden field which exits only if our jQuery code has been executed
 				h = $('<input>').attr({
 						type: 'hidden',
-						id: 'edit-menu-item-pll-detect-'+item,
-						name: 'menu-item-pll-detect['+item+']',
+						id: 'edit-menu-item-eml-detect-'+item,
+						name: 'menu-item-eml-detect['+item+']',
 						value: 1
 				});
 				$(this).append(h);
@@ -34,7 +34,7 @@ jQuery(document).ready(function($) {
 				for(var i = 0; i < ids.length; i++) {
 					p = $('<p>').attr('class', 'description');
 					$(this).prepend(p);
-					label = $('<label>').attr('for', 'menu-item-'+ids[i]+'-'+item).text(' '+pll_data.strings[i]);
+					label = $('<label>').attr('for', 'menu-item-'+ids[i]+'-'+item).text(' '+eml_data.strings[i]);
 					p.append(label);
 					cb = $('<input>').attr({
 						type: 'checkbox',
@@ -42,7 +42,7 @@ jQuery(document).ready(function($) {
 						name: 'menu-item-'+ids[i]+'['+item+']',
 						value: 1
 					});
-					if ((typeof(pll_data.val[item]) != 'undefined' && pll_data.val[item][ids[i]] == 1) || (typeof(pll_data.val[item]) == 'undefined' && ids[i] == 'show_names')) // show_names as default value
+					if ((typeof(eml_data.val[item]) != 'undefined' && eml_data.val[item][ids[i]] == 1) || (typeof(eml_data.val[item]) == 'undefined' && ids[i] == 'show_names')) // show_names as default value
 						cb.prop('checked', true);
 					label.prepend(cb);
 				}

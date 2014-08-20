@@ -45,7 +45,7 @@ class EML_Frontend_Auto_Translate {
 		$arr = array();
 		if (!empty($qv['cat'])) {
 			foreach (explode(',', $qv['cat']) as $cat)
-				$arr[] = ($tr = $sign($cat) * pll_get_term(abs($cat))) ? $tr : $cat;
+				$arr[] = ($tr = $sign($cat) * eml_get_term(abs($cat))) ? $tr : $cat;
 
 			$qv['cat'] = implode(',', $arr);
 		}
@@ -54,7 +54,7 @@ class EML_Frontend_Auto_Translate {
 		$arr = array();
 		if (!empty($qv['category_name'])) {
 			foreach (explode(',', $qv['category_name']) as $slug)
-				$arr[] = (($cat = get_category_by_slug($slug)) && ($tr_id = pll_get_term($cat->term_id)) && !is_wp_error($tr = get_category($tr_id))) ?
+				$arr[] = (($cat = get_category_by_slug($slug)) && ($tr_id = eml_get_term($cat->term_id)) && !is_wp_error($tr = get_category($tr_id))) ?
 					$tr->slug : $slug;
 
 			$qv['category_name'] = implode(',', $arr);
@@ -65,7 +65,7 @@ class EML_Frontend_Auto_Translate {
 			$arr = array();
 			if (!empty($qv[$key])) {
 				foreach ($qv[$key] as $cat)
-					$arr[] = ($tr = pll_get_term($cat)) ? $tr : $cat;
+					$arr[] = ($tr = eml_get_term($cat)) ? $tr : $cat;
 
 				$qv[$key] = $arr;
 			}
@@ -76,14 +76,14 @@ class EML_Frontend_Auto_Translate {
 		if (!empty($qv['tag'])) {
 			$sep = strpos($qv['tag'], ',') !== false ? ',' : '+'; // two possible separators for tag slugs
 			foreach (explode($sep, $qv['tag']) as $slug)
-				$arr[] = (($tag = get_term_by('slug', $slug, 'post_tag')) && ($tr_id = pll_get_term($tag->term_id)) && !is_wp_error($tr = get_tag($tr_id))) ?
+				$arr[] = (($tag = get_term_by('slug', $slug, 'post_tag')) && ($tr_id = eml_get_term($tag->term_id)) && !is_wp_error($tr = get_tag($tr_id))) ?
 					$tr->slug : $slug;
 
 			$qv['tag'] = implode($sep, $arr);
 		}
 
 		// tag_id can only take one id
-		if (!empty($qv['tag_id']) && $tr_id = pll_get_term($qv['tag_id']))
+		if (!empty($qv['tag_id']) && $tr_id = eml_get_term($qv['tag_id']))
 			$qv['tag_id'] = $tr_id;
 
 
@@ -92,7 +92,7 @@ class EML_Frontend_Auto_Translate {
 			$arr = array();
 			if (!empty($qv[$key])) {
 				foreach ($qv[$key] as $slug)
-					$arr[] = (($tag = get_term_by('slug', $slug, 'post_tag')) && ($tr_id = pll_get_term($tag->term_id)) && !is_wp_error($tr = get_tag($tr_id))) ?
+					$arr[] = (($tag = get_term_by('slug', $slug, 'post_tag')) && ($tr_id = eml_get_term($tag->term_id)) && !is_wp_error($tr = get_tag($tr_id))) ?
 						$tr->slug : $slug;
 
 				$qv[$key] = $arr;
@@ -108,7 +108,7 @@ class EML_Frontend_Auto_Translate {
 			if (!empty($qv[$tax->query_var])) {
 				$sep = strpos($qv[$tax->query_var], ',') !== false ? ',' : '+'; // two possible separators
 				foreach (explode($sep, $qv[$tax->query_var]) as $slug)
-					$arr[] = (($tag = get_term_by('slug', $slug, $taxonomy)) && ($tr_id = pll_get_term($tag->term_id)) && !is_wp_error($tr = get_term($tr_id, $taxonomy))) ?
+					$arr[] = (($tag = get_term_by('slug', $slug, $taxonomy)) && ($tr_id = eml_get_term($tag->term_id)) && !is_wp_error($tr = get_term($tr_id, $taxonomy))) ?
 						$tr->slug : $slug;
 
 				$qv[$tax->query_var] = implode($sep, $arr);
@@ -122,7 +122,7 @@ class EML_Frontend_Auto_Translate {
 					$arr = array();
 					$field = isset($q['field']) && in_array($q['field'], array('slug', 'name')) ? $q['field'] : 'term_id';
 					foreach ( (array) $q['terms'] as $t)
-						$arr[] = (($tag = get_term_by($field, $t, $q['taxonomy'])) && ($tr_id = pll_get_term($tag->term_id)) && !is_wp_error($tr = get_term($tr_id, $q['taxonomy']))) ?
+						$arr[] = (($tag = get_term_by($field, $t, $q['taxonomy'])) && ($tr_id = eml_get_term($tag->term_id)) && !is_wp_error($tr = get_term($tr_id, $q['taxonomy']))) ?
 							$tr->$field : $t;
 
 					$qv['tax_query'][$key]['terms'] = $arr;
@@ -133,7 +133,7 @@ class EML_Frontend_Auto_Translate {
 
 		// p, page_id, post_parent can only take one id
 		foreach (array('p', 'page_id', 'post_parent') as $key)
-			if (!empty($qv[$key]) && $tr_id = pll_get_post($qv[$key]))
+			if (!empty($qv[$key]) && $tr_id = eml_get_post($qv[$key]))
 				$qv[$key] = $tr_id;
 
 		// name, pagename can only take one slug
@@ -142,7 +142,7 @@ class EML_Frontend_Auto_Translate {
 				// no function to get post by name except get_posts itself
 				$post_type = empty($qv['post_type']) ? 'post' : $qv['post_type'];
 				$id = $wpdb->get_var($wpdb->prepare("SELECT ID from $wpdb->posts WHERE post_type=%s AND post_name=%s", $post_type, $qv[$key]));
-				$qv[$key] = ($id && ($tr_id = pll_get_post($id)) && $tr = get_post($tr_id)) ? $tr->post_name : $qv[$key];
+				$qv[$key] = ($id && ($tr_id = eml_get_post($id)) && $tr = get_post($tr_id)) ? $tr->post_name : $qv[$key];
 			}
 		}
 
@@ -158,7 +158,7 @@ class EML_Frontend_Auto_Translate {
 						return;
 
 				foreach ($qv[$key] as $p)
-					$arr[] = ($tr = pll_get_post($p)) ? $tr : $p;
+					$arr[] = ($tr = eml_get_post($p)) ? $tr : $p;
 
 				$qv[$key] = $arr;
 			}
@@ -177,7 +177,7 @@ class EML_Frontend_Auto_Translate {
 	public function get_terms_args($args, $taxonomies) {
 		if (!empty($args['include']) && $this->model->is_translated_taxonomy($taxonomies)) {
 			foreach(wp_parse_id_list($args['include']) as $id)
-				$arr[] = ($tr = pll_get_term($id)) ? $tr : $id;
+				$arr[] = ($tr = eml_get_term($id)) ? $tr : $id;
 
 			$args['include'] = $arr;
 		}

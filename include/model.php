@@ -137,7 +137,7 @@ class EML_Model {
 	 */
 	public function get_languages_list($args = array()) {
 		if (empty($this->languages[$this->blog_id])) {
-			if ((defined('EML_CACHE_LANGUAGES') && !EML_CACHE_LANGUAGES) || false === ($languages = get_transient('pll_languages_list'))) {
+			if ((defined('EML_CACHE_LANGUAGES') && !EML_CACHE_LANGUAGES) || false === ($languages = get_transient('eml_languages_list'))) {
 				$languages = get_terms('language', array('hide_empty' => false, 'orderby'=> 'term_group'));
 				$languages = empty($languages) || is_wp_error($languages) ? array() : $languages;
 
@@ -179,14 +179,14 @@ class EML_Model {
 	 * @since 1.4
 	 */
 	public function _languages_list() {
-		if ((defined('EML_CACHE_LANGUAGES') && !EML_CACHE_LANGUAGES) || false === get_transient('pll_languages_list')) {
+		if ((defined('EML_CACHE_LANGUAGES') && !EML_CACHE_LANGUAGES) || false === get_transient('eml_languages_list')) {
 			if (!defined('EML_CACHE_HOME_URL') || EML_CACHE_HOME_URL) {
 				foreach ($this->languages[$this->blog_id] as $language)
 					$language->set_home_url();
 			}
 
 			if (!defined('EML_CACHE_LANGUAGES') || EML_CACHE_LANGUAGES)
-				set_transient('pll_languages_list', $this->languages[$this->blog_id]);
+				set_transient('eml_languages_list', $this->languages[$this->blog_id]);
 		}
 
 		foreach ($this->languages[$this->blog_id] as $language) {
@@ -210,7 +210,7 @@ class EML_Model {
 	 */
 	public function clean_languages_cache($term = 0, $taxonomy = null) {
 		if (empty($taxonomy->name) || 'language' == $taxonomy->name) {
-			delete_transient('pll_languages_list');
+			delete_transient('eml_languages_list');
 			$this->languages[$this->blog_id] = array();
 		}
 	}
@@ -285,7 +285,7 @@ class EML_Model {
 
 				// create a new term if necessary
 				if (empty($term)) {
-					wp_insert_term($group = uniqid('pll_'), $type . '_translations', array('description' => serialize($translations)));
+					wp_insert_term($group = uniqid('eml_'), $type . '_translations', array('description' => serialize($translations)));
 				}
 				else {
 					// take care not to overwrite extra data stored in description field, if any
@@ -328,7 +328,7 @@ class EML_Model {
 			else {
 				// always keep a group for terms to allow relationships remap when importing from a WXR file
 				$translations[$slug] = $id;
-				wp_insert_term($group = uniqid('pll_'), $type . '_translations', array('description' => serialize($translations)));
+				wp_insert_term($group = uniqid('eml_'), $type . '_translations', array('description' => serialize($translations)));
 				wp_set_object_terms($id, $group, $type . '_translations');
 			}
 
@@ -490,7 +490,7 @@ class EML_Model {
 	 */
 	public function join_clause($type) {
 		global $wpdb;
-		return " INNER JOIN $wpdb->term_relationships AS pll_tr ON pll_tr.object_id = " . ('term' == $type ? "t.term_id" : "ID");
+		return " INNER JOIN $wpdb->term_relationships AS eml_tr ON eml_tr.object_id = " . ('term' == $type ? "t.term_id" : "ID");
 	}
 
 	/*
@@ -509,7 +509,7 @@ class EML_Model {
 		// $lang is an object
 		// generally the case if the query is coming from EasyMultilingual
 		if (is_object($lang))
-			return $wpdb->prepare(" AND pll_tr.term_taxonomy_id = %d", $lang->$tt_id);
+			return $wpdb->prepare(" AND eml_tr.term_taxonomy_id = %d", $lang->$tt_id);
 
 		// $lang is a comma separated list of slugs (or an array of slugs)
 		// generally the case is the query is coming from outside with 'lang' parameter
@@ -517,7 +517,7 @@ class EML_Model {
 		foreach ($slugs as $slug)
 			$languages[] = (int) $this->get_language($slug)->$tt_id;
 
-		return " AND pll_tr.term_taxonomy_id IN (" . implode(',', $languages) . ")";
+		return " AND eml_tr.term_taxonomy_id IN (" . implode(',', $languages) . ")";
 	}
 
 	/*
@@ -578,7 +578,7 @@ class EML_Model {
 			if (is_array($this->options['post_types']))
 				$post_types = array_merge($post_types,  $this->options['post_types']);
 
-			$post_types = apply_filters('pll_get_post_types', $post_types , false);
+			$post_types = apply_filters('eml_get_post_types', $post_types , false);
 		}
 
 		return $filter ? array_intersect($post_types, get_post_types()) : $post_types;
@@ -627,7 +627,7 @@ class EML_Model {
 			if (is_array($this->options['taxonomies']))
 				$taxonomies = array_merge($taxonomies, $this->options['taxonomies']);
 
-			$taxonomies = apply_filters('pll_get_taxonomies', $taxonomies, false);
+			$taxonomies = apply_filters('eml_get_taxonomies', $taxonomies, false);
 		}
 
 		return $filter ? array_intersect($taxonomies, get_taxonomies()) : $taxonomies;
@@ -692,15 +692,15 @@ class EML_Model {
 			$q['post_type'] = array($q['post_type']);
 
 		$cache_key = md5(serialize($q));
-		$counts = wp_cache_get($cache_key, 'pll_count_posts');
+		$counts = wp_cache_get($cache_key, 'eml_count_posts');
 
 		if (false === $counts) {
-			$select = "SELECT pll_tr.term_taxonomy_id, COUNT(*) AS num_posts FROM {$wpdb->posts} AS p";
+			$select = "SELECT eml_tr.term_taxonomy_id, COUNT(*) AS num_posts FROM {$wpdb->posts} AS p";
 			$join = $this->join_clause('post');
 			$where = " WHERE post_status = 'publish'";
 			$where .= " AND p.post_type IN ('" . join("', '", $q['post_type'] ) . "')";
 			$where .= $this->where_clause($this->get_languages_list(), 'post');
-			$groupby = " GROUP BY pll_tr.term_taxonomy_id";
+			$groupby = " GROUP BY eml_tr.term_taxonomy_id";
 
 			if (!empty($q['m'])) {
 				$q['m'] = '' . preg_replace('|[^0-9]|', '', $q['m']);
@@ -740,7 +740,7 @@ class EML_Model {
 			foreach ((array) $res as $row)
 				$counts[$row['term_taxonomy_id']] = $row['num_posts'];
 
-			wp_cache_set($cache_key, $counts, 'pll_count_posts');
+			wp_cache_set($cache_key, $counts, 'eml_count_posts');
 		}
 
 		return empty($counts[$lang->term_taxonomy_id]) ? 0 : $counts[$lang->term_taxonomy_id];

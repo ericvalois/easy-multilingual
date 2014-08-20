@@ -124,18 +124,18 @@ class EML_Admin_Filters_Columns {
 		if ($id = ($inline && $lang->slug != $_POST['old_lang']) ? ($language->slug == $lang->slug ? $post_id : 0) : $this->model->get_post($post_id, $language)) {
 			if (current_user_can($post_type_object->cap->edit_post, $post_id)) {
 				printf('<a class="%1$s" title="%2$s" href="%3$s"></a>',
-					$id == $post_id ? 'pll_icon_tick' : 'pll_icon_edit',
+					$id == $post_id ? 'eml_icon_tick' : 'eml_icon_edit',
 					esc_attr(get_post($id)->post_title),
 					esc_url(get_edit_post_link($id))
 				);
 			}
 			elseif ($id == $post_id) {
-				echo '<span class="pll_icon_tick"></span>';
+				echo '<span class="eml_icon_tick"></span>';
 			}
 		}
 		// link to add a new translation
 		elseif (current_user_can($post_type_object->cap->create_posts)) {
-			printf('<a class="pll_icon_add" title="%1$s" href="%2$s"></a>',
+			printf('<a class="eml_icon_add" title="%1$s" href="%2$s"></a>',
 				__('Add new translation', 'easyMultilingual'),
 				esc_url($this->links->get_new_post_translation_link($post_id, $language))
 			);
@@ -214,7 +214,7 @@ class EML_Admin_Filters_Columns {
 		// link to edit term (or a translation)
 		if ($id = ($inline && $lang->slug != $_POST['old_lang']) ? ($language->slug == $lang->slug ? $term_id : 0) : $this->model->get_term($term_id, $language)) {
 			printf('<a class="%1$s" title="%2$s" href="%3$s"></a>',
-				$id == $term_id ? 'pll_icon_tick' : 'pll_icon_edit',
+				$id == $term_id ? 'eml_icon_tick' : 'eml_icon_edit',
 				esc_attr(get_term($id, $taxonomy)->name),
 				esc_url(get_edit_term_link($id, $taxonomy, $post_type))
 			);
@@ -222,7 +222,7 @@ class EML_Admin_Filters_Columns {
 
 		// link to add a new translation
 		else {
-			printf('<a class="pll_icon_add" title="%1$s" href="%2$s"></a>',
+			printf('<a class="eml_icon_add" title="%1$s" href="%2$s"></a>',
 				__('Add new translation', 'easyMultilingual'),
 				esc_url($this->links->get_new_term_translation_link($term_id, $taxonomy, $post_type, $language))
 			);

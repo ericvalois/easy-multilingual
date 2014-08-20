@@ -39,7 +39,7 @@ class EML_Frontend_Filters extends EML_Filters{
 
 		// strings translation (must be applied before WordPress applies its default formatting filters)
 		foreach (array('widget_title', 'option_blogname', 'option_blogdescription', 'option_date_format', 'option_time_format') as $filter)
-			add_filter($filter, 'pll__', 1);
+			add_filter($filter, 'eml__', 1);
 
 		// translates biography
 		add_filter('get_user_metadata', array(&$this,'get_user_metadata'), 10, 3);
@@ -55,10 +55,10 @@ class EML_Frontend_Filters extends EML_Filters{
 		// support theme customizer
 		// FIXME of course does not work if 'transport' is set to 'postMessage'
 		if (isset($_POST['wp_customize'], $_POST['customized'])) {
-			add_filter('pre_option_page_on_front', 'pll_get_post', 20);
-			add_filter('pre_option_page_for_post', 'pll_get_post', 20);
-			add_filter('pre_option_blogname', 'pll__', 20);
-			add_filter('pre_option_blogdescription', 'pll__', 20);
+			add_filter('pre_option_page_on_front', 'eml_get_post', 20);
+			add_filter('pre_option_page_for_post', 'eml_get_post', 20);
+			add_filter('pre_option_blogname', 'eml__', 20);
+			add_filter('pre_option_blogdescription', 'eml__', 20);
 		}
 	}
 
@@ -165,7 +165,7 @@ class EML_Frontend_Filters extends EML_Filters{
 	 * @return bool|array false if we hide the widget, unmodified $instance otherwise
 	 */
 	public function widget_display_callback($instance, $widget) {
-		return !empty($instance['pll_lang']) && $instance['pll_lang'] != $this->curlang->slug ? false : $instance;
+		return !empty($instance['eml_lang']) && $instance['eml_lang'] != $this->curlang->slug ? false : $instance;
 	}
 
 	/*

@@ -22,15 +22,15 @@ class EML_Plugins_Compat {
 		add_action('init', create_function('',"\$GLOBALS['wp_taxonomies']['language']->yarpp_support = 1;"), 20);
 
 		// WordPress SEO by Yoast
-		add_action('pll_language_defined', array(&$this, 'wpseo_translate_options'));
+		add_action('eml_language_defined', array(&$this, 'wpseo_translate_options'));
 		add_filter('get_terms_args', array(&$this, 'wpseo_remove_terms_filter'));
-		add_filter('pll_home_url_white_list', create_function('$arr', "return array_merge(\$arr, array(array('file' => 'wordpress-seo')));"));
+		add_filter('eml_home_url_white_list', create_function('$arr', "return array_merge(\$arr, array(array('file' => 'wordpress-seo')));"));
 
 		// Custom field template
 		add_action('add_meta_boxes', array(&$this, 'cft_copy'), 10, 2);
 
 		// Aqua Resizer
-		add_filter('pll_home_url_black_list', create_function('$arr', "return array_merge(\$arr, array(array('function' => 'aq_resize')));"));
+		add_filter('eml_home_url_black_list', create_function('$arr', "return array_merge(\$arr, array(array('function' => 'aq_resize')));"));
 
 		// Twenty Fourteen
 		add_filter('transient_featured_content_ids', array(&$this, 'twenty_fourteen_featured_content_ids'));
@@ -169,7 +169,7 @@ class EML_Plugins_Compat {
 	 * @return array modified $settings
 	 */
 	public function twenty_fourteen_option_featured_content($settings) {
-		if ($settings['tag-id'] && $tr = pll_get_term($settings['tag-id']))
+		if ($settings['tag-id'] && $tr = eml_get_term($settings['tag-id']))
 			$settings['tag-id'] = $tr;
 
 		return $settings;
@@ -182,7 +182,7 @@ class EML_Plugins_Compat {
 	 */
 	public function jetpack_widget_get_top_posts( $posts, $post_ids, $count ) {
 		foreach ( $posts as $k => $post ) {
-			if (pll_current_language() !== pll_get_post_language($post['post_id']))
+			if (eml_current_language() !== eml_get_post_language($post['post_id']))
 				unset( $posts[ $k ] );
 		}
 
@@ -197,7 +197,7 @@ class EML_Plugins_Compat {
 	 */
 	public function grunion_contact_form_field_html_filter( $r, $field_label, $id ){
 		if ( function_exists( 'icl_translate' ) ) {
-			if ( pll_current_language() !== pll_default_language() ) {
+			if ( eml_current_language() !== eml_default_language() ) {
 				$label_translation = icl_translate( 'jetpack ', $field_label . '_label', $field_label );
 				$r = str_replace( $field_label, $label_translation, $r );
 			}

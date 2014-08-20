@@ -53,7 +53,7 @@ abstract class EML_Admin_Filters_Post_Base {
 	protected function save_translations($post_id, $arr) {
 		// security check
 		// as 'wp_insert_post' can be called from outside WP admin
-		check_admin_referer('pll_language', '_pll_nonce');
+		check_admin_referer('eml_language', '_eml_nonce');
 
 		// save translations after checking the translated post is in the right language
 		foreach ($arr as $lang => $tr_id)

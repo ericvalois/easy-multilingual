@@ -139,7 +139,7 @@ class EML_Links_Directory extends EML_Links_Model {
 			// make sure we have the right post types and taxonomies
 			$types = array_values(array_merge($this->model->get_translated_post_types(), $this->model->get_translated_taxonomies()));
 			$types = array_merge($this->always_rewrite, $types);
-			$this->rewrite_rules = apply_filters('pll_rewrite_rules', $types); // allow plugins to add rewrite rules to the language filter
+			$this->rewrite_rules = apply_filters('eml_rewrite_rules', $types); // allow plugins to add rewrite rules to the language filter
 
 			foreach ($this->rewrite_rules as $type)
 				add_filter($type . '_rewrite_rules', array(&$this, 'rewrite_rules'));

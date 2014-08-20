@@ -67,8 +67,8 @@ class EML_WP_Import extends WP_Import {
 		// language switcher menu items
 		foreach ($menu_items as $item) {
 			foreach ($item['postmeta'] as $meta) {
-				if ('_pll_menu_item' == $meta['key'])
-					update_post_meta($this->processed_menu_items[$item['post_id']], '_pll_menu_item', maybe_unserialize($meta['value']));
+				if ('_eml_menu_item' == $meta['key'])
+					update_post_meta($this->processed_menu_items[$item['post_id']], '_eml_menu_item', maybe_unserialize($meta['value']));
 			}
 		}
 

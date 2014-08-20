@@ -23,7 +23,7 @@ abstract class EML_Base {
 		add_action('widgets_init', array(&$this, 'widgets_init'));
 
 		// user defined strings translations
-		add_action('pll_language_defined', array(&$this, 'load_strings_translations'), 5);
+		add_action('eml_language_defined', array(&$this, 'load_strings_translations'), 5);
 
 		// switch_to_blog
 		add_action('switch_blog', array(&$this, 'switch_blog'), 10, 2);
@@ -66,7 +66,7 @@ abstract class EML_Base {
 	public function load_strings_translations() {
 		$mo = new EML_MO();
 		$mo->import_from_db($this->model->get_language(get_locale()));
-		$GLOBALS['l10n']['pll_string'] = &$mo;
+		$GLOBALS['l10n']['eml_string'] = &$mo;
 	}
 
 	/*

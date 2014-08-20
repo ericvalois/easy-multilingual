@@ -37,7 +37,7 @@ abstract class EML_Choose_Lang {
 	/*
 	 * writes language cookie
 	 * loads user defined translations
-	 * fires the action 'pll_language_defined'
+	 * fires the action 'eml_language_defined'
 	 *
 	 * @since 1.2
 	 *
@@ -52,7 +52,7 @@ abstract class EML_Choose_Lang {
 		$this->maybe_setcookie();
 
 		$GLOBALS['text_direction'] = $curlang->is_rtl ? 'rtl' : 'ltr';
-		do_action('pll_language_defined', $curlang->slug, $curlang);
+		do_action('eml_language_defined', $curlang->slug, $curlang);
 	}
 
 	/*
@@ -125,7 +125,7 @@ abstract class EML_Choose_Lang {
 		} // options['browser']
 
 		// allow plugin to modify the preferred language (useful for example to have a different fallback than the default language)
-		$slug = apply_filters('pll_preferred_language', isset($pref_lang) ? $pref_lang->slug : false);
+		$slug = apply_filters('eml_preferred_language', isset($pref_lang) ? $pref_lang->slug : false);
 
 		// return default if there is no preferences in the browser or preferences does not match our languages or it is requested not to use the browser preference
 		return ($lang = $this->model->get_language($slug)) ? $lang : $this->model->get_language($this->options['default_lang']);
@@ -165,7 +165,7 @@ abstract class EML_Choose_Lang {
 		// don't forget the query string which may be added by plugins
 		elseif (is_string($redirect = $this->links->get_home_url($this->curlang)) && empty($_POST)) {
 			$redirect = empty($_SERVER['QUERY_STRING']) ? $redirect : $redirect . (get_option('permalink_structure') ? '?' : '&') . $_SERVER['QUERY_STRING'];
-			if ($redirect = apply_filters('pll_redirect_home', $redirect)) {
+			if ($redirect = apply_filters('eml_redirect_home', $redirect)) {
 				wp_redirect($redirect);
 				exit;
 			}

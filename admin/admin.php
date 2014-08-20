@@ -115,7 +115,7 @@ class EML_Admin extends EML_Base {
 
 		foreach ($scripts as $script => $v)
 			if (in_array($screen->base, $v[0]) && ($v[2] || $this->model->get_languages_list()))
-				wp_enqueue_script('pll_'.$script, EASYMULTILINGUAL_URL .'/js/'.$script.$suffix.'.js', $v[1], EASYMULTILINGUAL_VERSION, $v[3]);
+				wp_enqueue_script('eml_'.$script, EASYMULTILINGUAL_URL .'/js/'.$script.$suffix.'.js', $v[1], EASYMULTILINGUAL_VERSION, $v[3]);
 
 		wp_enqueue_style('easyMultilingual_admin', EASYMULTILINGUAL_URL .'/css/admin'.$suffix.'.css', array(), EASYMULTILINGUAL_VERSION);
 
@@ -126,15 +126,15 @@ class EML_Admin extends EML_Base {
 	}
 
 	/*
-	 * sets pll_ajax_backend on all backend ajax request
+	 * sets eml_ajax_backend on all backend ajax request
 	 *
 	 * @since 1.4
 	 */
 	public function admin_print_footer_scripts() {
 		global $post_ID;
-		$params = array('pll_ajax_backend' => 1);
+		$params = array('eml_ajax_backend' => 1);
 		if (!empty($post_ID))
-			$params = array_merge($params, array('pll_post_id' => $post_ID));
+			$params = array_merge($params, array('eml_post_id' => $post_ID));
 
 		$str = $arr = '';
 		foreach ($params as $k => $v) {
@@ -197,22 +197,30 @@ class EML_Admin extends EML_Base {
 		// language for admin language filter: may be empty
 		// $_GET['lang'] is numeric when editing a language, not when selecting a new language in the filter
 		if (!defined('DOING_AJAX') && !empty($_GET['lang']) && !is_numeric($_GET['lang']) && current_user_can('edit_user', $user_id = get_current_user_id()))
-			update_user_meta($user_id, 'pll_filter_content', ($lang = $this->model->get_language($_GET['lang'])) ? $lang->slug : '');
+			update_user_meta($user_id, 'eml_filter_content', ($lang = $this->model->get_language($_GET['lang'])) ? $lang->slug : '');
 
-		$this->curlang = $this->model->get_language(get_user_meta(get_current_user_id(), 'pll_filter_content', true));
-
+		$this->curlang = $this->model->get_language(get_user_meta(get_current_user_id(), 'eml_filter_content', true));
+        
 		// set preferred language for use when saving posts and terms: must not be empty
 		$this->pref_lang = empty($this->curlang) ? $this->model->get_language($this->options['default_lang']) : $this->curlang;
-		$this->pref_lang = apply_filters('pll_admin_preferred_language', $this->pref_lang);
-
+		$this->pref_lang = apply_filters('eml_admin_preferred_language', $this->pref_lang);
+        
+        
+        // Fix pour retirer le show all par defaut
+        if( empty($this->curlang) ) {
+            $this->curlang = $this->pref_lang;
+        }
+        
+        
 		// inform that the admin language has been set
 		// only if the admin language is one of the EasyMultilingual defined language
 		if ($curlang = $this->model->get_language(get_locale())) {
 			$GLOBALS['text_direction'] = $curlang->is_rtl ? 'rtl' : 'ltr'; // force text direction according to language setting
-			do_action('pll_language_defined', $curlang->slug, $curlang);
+			do_action('eml_language_defined', $curlang->slug, $curlang);
 		}
 		else
-			do_action('pll_no_language_defined'); // to load overriden textdomains
+			do_action('eml_no_language_defined'); // to load overriden textdomains
+            
 	}
 
 	/*
@@ -242,7 +250,7 @@ class EML_Admin extends EML_Base {
 
 		foreach ($classes as $class) {
 			$obj = strtolower($class);
-			$class = apply_filters('pll_' . $obj, 'EML_Admin_' . $class);
+			$class = apply_filters('eml_' . $obj, 'EML_Admin_' . $class);
 			$this->$obj = new $class($this);
 		}
 	}
@@ -254,7 +262,8 @@ class EML_Admin extends EML_Base {
 	 *
 	 * @param object $wp_admin_bar
 	 */
-	public function admin_bar_menu($wp_admin_bar) {
+	public function admin_bar_menu($wp_admin_bar) {        
+        
 		$url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 
 		$all_item = (object) array(
@@ -262,7 +271,7 @@ class EML_Admin extends EML_Base {
 			'name' => __('Show all languages', 'easyMultilingual'),
 			'flag' => '<span class="ab-icon"></span>'
 		);
-
+        
 		$selected = empty($this->curlang) ? $all_item : $this->curlang;
 
 		$wp_admin_bar->add_menu(array(
@@ -271,7 +280,8 @@ class EML_Admin extends EML_Base {
 			'meta'  => array('title' => __('Filters content by language', 'easyMultilingual')),
 		));
 
-		foreach (array_merge(array($all_item), $this->model->get_languages_list()) as $lang) {
+		foreach ($this->model->get_languages_list() as $lang) {
+            
 			if ($selected->slug == $lang->slug)
 				continue;
 
@@ -369,7 +379,7 @@ class EML_Admin extends EML_Base {
 		}
 
 		// we did not succeeded to download a file :(
-		add_settings_error('general', 'pll_download_mo', __('The language was created, but the WordPress language file was not downloaded. Please install it manually.', 'easyMultilingual'));
+		add_settings_error('general', 'eml_download_mo', __('The language was created, but the WordPress language file was not downloaded. Please install it manually.', 'easyMultilingual'));
 		return false;
 	}
 }

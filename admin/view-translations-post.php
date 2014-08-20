@@ -16,7 +16,7 @@
 			$value = $this->model->get_post((int)$_GET['from_post'], $language);
 
 		$link = $add_link = sprintf(
-			'<a href="%1$s" class="pll_icon_add" title="%2$s"></a>',
+			'<a href="%1$s" class="eml_icon_add" title="%2$s"></a>',
 			esc_url($this->links->get_new_post_translation_link($post_ID, $language)),
 			__('Add new', 'easyMultilingual')
 		);
@@ -27,10 +27,10 @@
 		} ?>
 
 		<tr>
-			<td class = "pll-language-column"><?php echo $language->flag ? $language->flag : esc_html($language->slug); ?></td>
+			<td class = "eml-language-column"><?php echo $language->flag ? $language->flag : esc_html($language->slug); ?></td>
 			<td class = "hidden"><?php echo $add_link;?></td>
-			<td class = "pll-edit-column"><?php echo $link;?></td>
-			<td class = "pll-translation-column"><?php
+			<td class = "eml-edit-column"><?php echo $link;?></td>
+			<td class = "eml-translation-column"><?php
 				printf('
 					<input type="hidden" name="post_tr_lang[%1$s]" id="htr_lang_%1$s" value="%2$s"/>
 					<input type="text" class="tr_lang" id="tr_lang_%1$s" value="%3$s">',

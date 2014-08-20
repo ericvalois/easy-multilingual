@@ -25,7 +25,7 @@ else {
 
 		if (isset($term_id)) { // do not display the add new link in add term form ($term_id not set !!!) {
 			$link = $add_link = sprintf(
-				'<a href="%1$s" class="pll_icon_add" title="%2$s"></a>',
+				'<a href="%1$s" class="eml_icon_add" title="%2$s"></a>',
 				esc_url($this->links->get_new_term_translation_link($term_id, $taxonomy, $post_type, $language)),
 				__('Add new','easyMultilingual')
 			);
@@ -37,14 +37,14 @@ else {
 
 		<tr><?php
 			if (isset($term_id)) { ?>
-				<td class = "pll-language-column"><?php echo $language->flag . '&nbsp;' . esc_html($language->name); ?></td>
+				<td class = "eml-language-column"><?php echo $language->flag . '&nbsp;' . esc_html($language->name); ?></td>
 				<td class = "hidden"><?php echo $add_link;?></td>
-				<td class = "pll-edit-column"><?php echo $link;?></td><?php
+				<td class = "eml-edit-column"><?php echo $link;?></td><?php
 			}
 			else { ?>
-				<td class = "pll-language-column"><?php echo $language->flag ? $language->flag : esc_html($language->slug); ?></td><?php
+				<td class = "eml-language-column"><?php echo $language->flag ? $language->flag : esc_html($language->slug); ?></td><?php
 			} ?>
-			<td class = "pll-translation-column"><?php
+			<td class = "eml-translation-column"><?php
 				printf('
 					<input type="hidden" name="term_tr_lang[%1$s]" id="htr_lang_%1$s" value="%2$s"/>
 					<input type="text" class="tr_lang" id="tr_lang_%1$s" value="%3$s">',

@@ -18,12 +18,12 @@ class EML_Choose_Lang_Content extends EML_Choose_lang {
 	public function __construct(&$easyMultilingual) {
 		parent::__construct($easyMultilingual);
 
-		if (!did_action('pll_language_defined')) {
+		if (!did_action('eml_language_defined')) {
 			// set the languages from content
 			add_action('wp', array(&$this, 'wp'), 5); // priority 5 for post types and taxonomies registered in wp hook with default priority
 
 			// if no language found, choose the preferred one
-			add_filter('pll_get_current_language', array(&$this, 'pll_get_current_language'));
+			add_filter('eml_get_current_language', array(&$this, 'eml_get_current_language'));
 		}
 	}
 
@@ -67,7 +67,7 @@ class EML_Choose_Lang_Content extends EML_Choose_lang {
 		}
 
 		// allows plugins to set the language
-		return apply_filters('pll_get_current_language', isset($lang) ? $lang : false);
+		return apply_filters('eml_get_current_language', isset($lang) ? $lang : false);
 	}
 
 	/*
@@ -96,7 +96,7 @@ class EML_Choose_Lang_Content extends EML_Choose_lang {
 		$is_archive = (count($query->query) == 1 && !empty($qv['paged'])) ||
 			$query->is_date ||
 			$query->is_author ||
-			(!empty($qv['post_type']) && $query->is_post_type_archive && pll_is_translated_post_type($qv['post_type']));
+			(!empty($qv['post_type']) && $query->is_post_type_archive && eml_is_translated_post_type($qv['post_type']));
 
 		// sets the language in case we hide the default language
 		// use $query->query['s'] as is_search is not set when search is empty
@@ -126,7 +126,7 @@ class EML_Choose_Lang_Content extends EML_Choose_lang {
 	 * @param object|bool language found in get_language_from_content
 	 * @return object language
 	 */
-	public function pll_get_current_language($lang) {
+	public function eml_get_current_language($lang) {
 		return !$lang ? $this->get_preferred_language() : $lang;
 	}
 }

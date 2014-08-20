@@ -22,7 +22,7 @@
  * @param array $args optional
  * @return null|string|array null if displaying, array if raw is requested, string otherwise
  */
-function pll_the_languages($args = '') {
+function eml_the_languages($args = '') {
 	global $easyMultilingual;
 	if ($easyMultilingual instanceof EML_Frontend && !empty($easyMultilingual->links)) {
 		$switcher = new EML_Switcher;
@@ -39,7 +39,7 @@ function pll_the_languages($args = '') {
  * @param string $field optional the language field to return 'name', 'locale', defaults to 'slug'
  * @return string the requested field for the current language
  */
-function pll_current_language($field = 'slug') {
+function eml_current_language($field = 'slug') {
 	global $easyMultilingual;
 	return isset($easyMultilingual->curlang->$field) ? $easyMultilingual->curlang->$field : false;
 }
@@ -52,7 +52,7 @@ function pll_current_language($field = 'slug') {
  * @param string $field optional the language field to return 'name', 'locale', defaults to 'slug'
  * @return string the requested field for the default language
  */
-function pll_default_language($field = 'slug') {
+function eml_default_language($field = 'slug') {
 	global $easyMultilingual;
 	return isset($easyMultilingual->options['default_lang']) && ($lang = $easyMultilingual->model->get_language($easyMultilingual->options['default_lang'])) && isset($lang->$field) ? $lang->$field : false;
 }
@@ -66,9 +66,9 @@ function pll_default_language($field = 'slug') {
  * @param string $slug optional language code, defaults to current language
  * @return int post id of the translation if exists
  */
-function pll_get_post($post_id, $slug = '') {
+function eml_get_post($post_id, $slug = '') {
 	global $easyMultilingual;
-	return isset($easyMultilingual) && ($slug = $slug ? $slug : pll_current_language()) ? $easyMultilingual->model->get_post($post_id, $slug) : null;
+	return isset($easyMultilingual) && ($slug = $slug ? $slug : eml_current_language()) ? $easyMultilingual->model->get_post($post_id, $slug) : null;
 }
 
 /*
@@ -80,9 +80,9 @@ function pll_get_post($post_id, $slug = '') {
  * @param string $slug optional language code, defaults to current language
  * @return int term id of the translation if exists
  */
-function pll_get_term($term_id, $slug = '') {
+function eml_get_term($term_id, $slug = '') {
 	global $easyMultilingual;
-	return isset($easyMultilingual) && ($slug = $slug ? $slug : pll_current_language()) ? $easyMultilingual->model->get_term($term_id, $slug) : null;
+	return isset($easyMultilingual) && ($slug = $slug ? $slug : eml_current_language()) ? $easyMultilingual->model->get_term($term_id, $slug) : null;
 }
 
 /*
@@ -93,11 +93,11 @@ function pll_get_term($term_id, $slug = '') {
  * @param string $lang language code (optional on frontend)
  * @return string
  */
-function pll_home_url($lang = '') {
+function eml_home_url($lang = '') {
 	global $easyMultilingual;
 
 	if (empty($lang))
-		$lang = pll_current_language();
+		$lang = eml_current_language();
 
 	return isset($easyMultilingual) && !empty($easyMultilingual->links) && !empty($lang) ? $easyMultilingual->links->get_home_url($lang) : home_url('/');
 }
@@ -112,37 +112,37 @@ function pll_home_url($lang = '') {
  * @param string $context optional the group in which the string is registered, defaults to 'easyMultilingual'
  * @param bool $multiline optional wether the string table should display a multiline textarea or a single line input, defaults to single line
  */
-function pll_register_string($name, $string, $context = 'easyMultilingual', $multiline = false) {
+function eml_register_string($name, $string, $context = 'easyMultilingual', $multiline = false) {
 	global $easyMultilingual;
 	if ($easyMultilingual instanceof EML_Admin && !empty($easyMultilingual->settings_page))
 		$easyMultilingual->settings_page->register_string($name, $string, $context, $multiline);
 }
 
 /*
- * translates a string (previously registered with pll_register_string)
+ * translates a string (previously registered with eml_register_string)
  *
  * @since 0.6
  *
  * @param string $string the string to translate
  * @return string the string translation in the current language
  */
-function pll__($string) {
-	return __($string, 'pll_string');
+function eml__($string) {
+	return __($string, 'eml_string');
 }
 
 /*
- * echoes a translated string (previously registered with pll_register_string)
+ * echoes a translated string (previously registered with eml_register_string)
  *
  * @since 0.6
  *
  * @param string $string the string to translate
  */
-function pll_e($string) {
-	_e($string, 'pll_string');
+function eml_e($string) {
+	_e($string, 'eml_string');
 }
 
 /*
- * translates a string (previously registered with pll_register_string)
+ * translates a string (previously registered with eml_register_string)
  *
  * @since 1.5.4
  *
@@ -150,9 +150,9 @@ function pll_e($string) {
  * @param string $lang language code
  * @return string the string translation in the requested language
  */
-function pll_translate_string($string, $lang) {
-	if (pll_current_language() == $lang)
-		return pll__($string);
+function eml_translate_string($string, $lang) {
+	if (eml_current_language() == $lang)
+		return eml__($string);
 		
 	static $mo = array();
 	
@@ -172,7 +172,7 @@ function pll_translate_string($string, $lang) {
  * @param string post type name
  * @return bool
  */
-function pll_is_translated_post_type($post_type) {
+function eml_is_translated_post_type($post_type) {
 	global $easyMultilingual;
 	return isset($easyMultilingual) && $easyMultilingual->model->is_translated_post_type($post_type);
 }
@@ -185,7 +185,7 @@ function pll_is_translated_post_type($post_type) {
  * @param string taxonomy name
  * @return bool
  */
-function pll_is_translated_taxonomy($tax) {
+function eml_is_translated_taxonomy($tax) {
 	global $easyMultilingual;
 	return isset($easyMultilingual) && $easyMultilingual->model->is_translated_taxonomy($tax);
 }
@@ -203,7 +203,7 @@ function pll_is_translated_taxonomy($tax) {
  * @param array $args list of parameters
  * @return array
  */
-function pll_languages_list($args = array()) {
+function eml_languages_list($args = array()) {
 	global $easyMultilingual;
 	$args = wp_parse_args($args, array('fields' => 'slug'));
 	return isset($easyMultilingual) ? $easyMultilingual->model->get_languages_list($args) : false;
@@ -217,7 +217,7 @@ function pll_languages_list($args = array()) {
  * @param int $post_id post id
  * @param string $lang language code
  */
-function pll_set_post_language($id, $lang) {
+function eml_set_post_language($id, $lang) {
 	global $easyMultilingual;
 	if (isset($easyMultilingual))
 		$easyMultilingual->model->set_post_language($id, $lang);
@@ -231,7 +231,7 @@ function pll_set_post_language($id, $lang) {
  * @param int $id term id
  * @param string $lang language code
  */
-function pll_set_term_language($id, $lang) {
+function eml_set_term_language($id, $lang) {
 	global $easyMultilingual;
 	if (isset($easyMultilingual))
 		$easyMultilingual->model->set_term_language($id, $lang);
@@ -244,7 +244,7 @@ function pll_set_term_language($id, $lang) {
  *
  * @param array $arr an associative array of translations with language code as key and post id as value
  */
-function pll_save_post_translations($arr) {
+function eml_save_post_translations($arr) {
 	global $easyMultilingual;
 	if (isset($easyMultilingual))
 		$easyMultilingual->model->save_translations('post', reset($arr), $arr);
@@ -257,7 +257,7 @@ function pll_save_post_translations($arr) {
  *
  * @param array $arr an associative array of translations with language code as key and term id as value
  */
-function pll_save_term_translations($arr) {
+function eml_save_term_translations($arr) {
 	global $easyMultilingual;
 	if (isset($easyMultilingual))
 		$easyMultilingual->model->save_translations('term', reset($arr), $arr);
@@ -272,7 +272,7 @@ function pll_save_term_translations($arr) {
  * @param string $field optional the language field to return 'name', 'locale', defaults to 'slug'
  * @return bool|string the requested field for the post language, false if no language is associated to that post
  */
-function pll_get_post_language($post_id, $field = 'slug') {
+function eml_get_post_language($post_id, $field = 'slug') {
 	global $easyMultilingual;
 	return isset($easyMultilingual) && ($lang = $easyMultilingual->model->get_post_language($post_id)) ? $lang->$field : false;
 }
@@ -286,7 +286,7 @@ function pll_get_post_language($post_id, $field = 'slug') {
  * @param string $field optional the language field to return 'name', 'locale', defaults to 'slug'
  * @return bool|string the requested field for the term language, false if no language is associated to that term
  */
-function pll_get_term_language($term_id, $field = 'slug') {
+function eml_get_term_language($term_id, $field = 'slug') {
 	global $easyMultilingual;
 	return isset($easyMultilingual) && ($lang = $easyMultilingual->model->get_term_language($term_id)) ? $lang->$field : false;
 }
@@ -300,7 +300,7 @@ function pll_get_term_language($term_id, $field = 'slug') {
  * @param array $args (accepted keys: post_type, m, year, monthnum, day, author, author_name, post_format)
  * @return int posts count
  */
-function pll_count_posts($lang, $args = array()) {
+function eml_count_posts($lang, $args = array()) {
 	global $easyMultilingual;
 	return isset($easyMultilingual) ? $easyMultilingual->model->count_posts($easyMultilingual->model->get_language($lang), $args) : false;
 }

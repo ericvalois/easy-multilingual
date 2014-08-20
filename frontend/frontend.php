@@ -32,7 +32,7 @@ class EML_Frontend extends EML_Base {
 	public function __construct(&$links_model) {
 		parent::__construct($links_model);
 
-		add_action('pll_language_defined', array(&$this, 'pll_language_defined'), 1, 2);
+		add_action('eml_language_defined', array(&$this, 'eml_language_defined'), 1, 2);
 
 		// filters posts by language
 		add_filter('parse_query', array(&$this, 'parse_query'), 6);
@@ -64,7 +64,7 @@ class EML_Frontend extends EML_Base {
 	 * @param string $slug current language slug
 	 * @param object $curlang current language object
 	 */
-	public function pll_language_defined($slug, $curlang) {
+	public function eml_language_defined($slug, $curlang) {
 		$this->curlang = $curlang;
 
 		// filters
@@ -138,7 +138,7 @@ class EML_Frontend extends EML_Base {
 	 */
 	public function switch_blog($new_blog, $old_blog) {
 		// need to check that some languages are defined when user is logged in, has several blogs, some without any languages
-		if (parent::switch_blog($new_blog, $old_blog) && did_action('pll_language_defined') && $this->model->get_languages_list()) {
+		if (parent::switch_blog($new_blog, $old_blog) && did_action('eml_language_defined') && $this->model->get_languages_list()) {
 			static $restore_curlang;
 			if (empty($restore_curlang))
 				$restore_curlang = $this->curlang->slug; // to always remember the current language through blogs

@@ -39,11 +39,11 @@ class EML_Frontend_Nav_Menu {
 		$offset = 0;
 
 		foreach ($items as $key => $item) {
-			if ($options = get_post_meta($item->ID, '_pll_menu_item', true)) {
+			if ($options = get_post_meta($item->ID, '_eml_menu_item', true)) {
 				extract($options);
 				$i = 0;
 
-				foreach (pll_the_languages(array_merge(array('raw' => 1), $options)) as $language) {
+				foreach (eml_the_languages(array_merge(array('raw' => 1), $options)) as $language) {
 					extract($language);
 					$lang_item = clone $item;
 					$lang_item->ID = $lang_item->ID . '-' . $slug; // a unique ID

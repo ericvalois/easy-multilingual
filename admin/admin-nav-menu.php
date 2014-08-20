@@ -49,7 +49,7 @@ class EML_Admin_Nav_Menu {
 
 		// FIXME is it possible to choose the order (after theme locations in WP3.5 and older) ?
 		// FIXME not displayed if EasyMultilingual is activated before the first time the user goes to nav menus http://core.trac.wordpress.org/ticket/16828
-		add_meta_box('pll_lang_switch_box', __('Language switcher', 'easyMultilingual'), array( &$this, 'lang_switch' ), 'nav-menus', 'side', 'high');
+		add_meta_box('eml_lang_switch_box', __('Language switcher', 'easyMultilingual'), array( &$this, 'lang_switch' ), 'nav-menus', 'side', 'high');
 
 		$this->create_nav_menu_locations();
 	}
@@ -65,7 +65,7 @@ class EML_Admin_Nav_Menu {
 		if (isset($_wp_registered_nav_menus)) {
 			foreach ($_wp_registered_nav_menus as $loc => $name)
 				foreach ($this->model->get_languages_list() as $lang)
-					$arr[$loc . (pll_default_language() == $lang->slug ? '' : '___' . $lang->slug)] = $name . ' ' . $lang->name;
+					$arr[$loc . (eml_default_language() == $lang->slug ? '' : '___' . $lang->slug)] = $name . ' ' . $lang->name;
 
 			$_wp_registered_nav_menus = $arr;
 		}
@@ -91,7 +91,7 @@ class EML_Admin_Nav_Menu {
 						</label>
 						<input type="hidden" class="menu-item-type" name="menu-item[<?php echo $_nav_menu_placeholder; ?>][menu-item-type]" value="custom">
 						<input type="hidden" class="menu-item-title" name="menu-item[<?php echo $_nav_menu_placeholder; ?>][menu-item-title]" value="<?php _e('Language switcher', 'easyMultilingual'); ?>">
-						<input type="hidden" class="menu-item-url" name="menu-item[<?php echo $_nav_menu_placeholder; ?>][menu-item-url]" value="#pll_switcher">
+						<input type="hidden" class="menu-item-url" name="menu-item[<?php echo $_nav_menu_placeholder; ?>][menu-item-url]" value="#eml_switcher">
 	   				</li>
 	   			</ul>
 	   		</div>
@@ -115,7 +115,7 @@ class EML_Admin_Nav_Menu {
 			return;
 
 		$suffix = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.min';
-		wp_enqueue_script('pll_nav_menu', EASYMULTILINGUAL_URL .'/js/nav-menu'.$suffix.'.js', array('jquery'), EASYMULTILINGUAL_VERSION);
+		wp_enqueue_script('eml_nav_menu', EASYMULTILINGUAL_URL .'/js/nav-menu'.$suffix.'.js', array('jquery'), EASYMULTILINGUAL_VERSION);
 
 		// the strings for the options
 		foreach (array_reverse(EML_Switcher::get_switcher_options('menu', 'string')) as $str)
@@ -129,16 +129,16 @@ class EML_Admin_Nav_Menu {
 			'nopaging'    => true,
 			'post_type'   => 'nav_menu_item',
 			'fields'      => 'ids',
-			'meta_key'    => '_pll_menu_item'
+			'meta_key'    => '_eml_menu_item'
 		));
 
 		// the options values for the language switcher
 		$data['val'] = array();
 		foreach ($items as $item)
-			$data['val'][$item] = get_post_meta($item, '_pll_menu_item', true);
+			$data['val'][$item] = get_post_meta($item, '_eml_menu_item', true);
 
 		// send all these data to javascript
-		wp_localize_script('pll_nav_menu', 'pll_data', $data);
+		wp_localize_script('eml_nav_menu', 'eml_data', $data);
 	}
 
 	/*
@@ -150,7 +150,7 @@ class EML_Admin_Nav_Menu {
 	 * @param int $menu_item_db_id
 	 */
 	public function wp_update_nav_menu_item( $menu_id = 0, $menu_item_db_id = 0 ) {
-		if (empty($_POST['menu-item-url'][$menu_item_db_id]) || $_POST['menu-item-url'][$menu_item_db_id] != '#pll_switcher')
+		if (empty($_POST['menu-item-url'][$menu_item_db_id]) || $_POST['menu-item-url'][$menu_item_db_id] != '#eml_switcher')
 			return;
 
 		// security check
@@ -162,14 +162,14 @@ class EML_Admin_Nav_Menu {
 
 		$options = array('hide_current' => 0,'force_home' => 0 ,'show_flags' => 0 ,'show_names' => 1); // default values
 		// our jQuery form has not been displayed
-		if (empty($_POST['menu-item-pll-detect'][$menu_item_db_id])) {
-			if (!get_post_meta($menu_item_db_id, '_pll_menu_item', true)) // our options were never saved
-				update_post_meta($menu_item_db_id, '_pll_menu_item', $options);
+		if (empty($_POST['menu-item-eml-detect'][$menu_item_db_id])) {
+			if (!get_post_meta($menu_item_db_id, '_eml_menu_item', true)) // our options were never saved
+				update_post_meta($menu_item_db_id, '_eml_menu_item', $options);
 		}
 		else {
 			foreach ($options as $opt => $v)
 				$options[$opt] = empty($_POST['menu-item-'.$opt][$menu_item_db_id]) ? 0 : 1;
-			update_post_meta($menu_item_db_id, '_pll_menu_item', $options); // allow us to easily identify our nav menu item
+			update_post_meta($menu_item_db_id, '_eml_menu_item', $options); // allow us to easily identify our nav menu item
 		}
 
 	}
@@ -184,7 +184,7 @@ class EML_Admin_Nav_Menu {
 	 */
 	public function translate_switcher_title($items) {
 		foreach ($items as $item)
-			if ('#pll_switcher' == $item->url)
+			if ('#eml_switcher' == $item->url)
 				$item->post_title = __('Language switcher', 'easyMultilingual');
 		return $items;
 	}
@@ -224,7 +224,7 @@ class EML_Admin_Nav_Menu {
 			else
 				return $mods; // no modification for nav menu locations
 
-			$default = pll_default_language();
+			$default = eml_default_language();
 
 			// extract language and menu from locations
 			foreach ($mods['nav_menu_locations'] as $loc => $menu) {
@@ -253,7 +253,7 @@ class EML_Admin_Nav_Menu {
 		if (is_array($menus)) {
 			foreach ($menus as $loc => $menu) {
 				foreach ($this->model->get_languages_list() as $lang) {
-					if (pll_default_language() != $lang->slug && !empty($this->options['nav_menus'][$this->theme][$loc][$lang->slug]))
+					if (eml_default_language() != $lang->slug && !empty($this->options['nav_menus'][$this->theme][$loc][$lang->slug]))
 						$menus[$loc . '___' . $lang->slug] = $this->options['nav_menus'][$this->theme][$loc][$lang->slug];
 				}
 			}

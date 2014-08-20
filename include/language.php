@@ -73,11 +73,11 @@ class EML_Language {
 
 		$this->flag_url = empty($url) ? '' : esc_url($url);
 
-		$this->flag = apply_filters('pll_get_flag', empty($this->flag_url) ? '' :
+		$this->flag = apply_filters('eml_get_flag', empty($this->flag_url) ? '' :
 			sprintf(
 				'<img src="%s" title="%s" alt="%s" />',
 				$this->flag_url,
-				esc_attr(apply_filters('pll_flag_title', $this->name, $this->slug, $this->locale)),
+				esc_attr(apply_filters('eml_flag_title', $this->name, $this->slug, $this->locale)),
 				esc_attr($this->name)
 			));
 	}
@@ -109,7 +109,7 @@ class EML_Language {
 		$options = get_option('easyMultilingual');
 
 		// a static page is used as front page
-		if (!$options['redirect_lang'] && 'page' == get_option('show_on_front') && ($page_on_front = get_option('page_on_front')) && $id = pll_get_post($page_on_front, $this))
+		if (!$options['redirect_lang'] && 'page' == get_option('show_on_front') && ($page_on_front = get_option('page_on_front')) && $id = eml_get_post($page_on_front, $this))
 			$this->home_url = _get_page_link($id); // /!\ don't use get_page_link to avoid infinite loop
 
 		else

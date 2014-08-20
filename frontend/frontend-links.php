@@ -27,7 +27,7 @@ class EML_Frontend_Links extends EML_Links {
 			$this->page_for_posts = get_option('page_for_posts');
 		}
 
-		add_action('pll_language_defined', array(&$this, 'pll_language_defined'), 10, 2);
+		add_action('eml_language_defined', array(&$this, 'eml_language_defined'), 10, 2);
 	}
 
 	/*
@@ -39,7 +39,7 @@ class EML_Frontend_Links extends EML_Links {
 	 * @param string $slug current language slug
 	 * @param object $curlang current language object
 	 */
-	public function pll_language_defined($slug, $curlang) {
+	public function eml_language_defined($slug, $curlang) {
 		$this->curlang = $curlang;
 
 		// rewrites author and date links to filter them by language
@@ -170,7 +170,7 @@ class EML_Frontend_Links extends EML_Links {
 		static $white_list, $black_list; // avoid evaluating this at each function call
 
 		if (empty($white_list)) {
-			$white_list = apply_filters('pll_home_url_white_list',  array(
+			$white_list = apply_filters('eml_home_url_white_list',  array(
 				array('file' => get_theme_root()),
 				array('function' => 'wp_nav_menu'),
 				array('function' => 'login_footer')
@@ -178,7 +178,7 @@ class EML_Frontend_Links extends EML_Links {
 		}
 
 		if (empty($black_list))
-			$black_list = apply_filters('pll_home_url_black_list',  array(array('function' => 'get_search_form')));
+			$black_list = apply_filters('eml_home_url_black_list',  array(array('function' => 'get_search_form')));
 
 		$traces = version_compare(PHP_VERSION, '5.2.5', '>=') ? debug_backtrace(false) : debug_backtrace();
 
@@ -279,7 +279,7 @@ class EML_Frontend_Links extends EML_Links {
 		elseif (is_home() || is_tax('language') )
 			$url = $this->get_home_url($language);
 
-		return $translation_url[$this->model->blog_id][$language->slug] = apply_filters('pll_translation_url', (isset($url) && !is_wp_error($url) ? $url : null), $language->slug);
+		return $translation_url[$this->model->blog_id][$language->slug] = apply_filters('eml_translation_url', (isset($url) && !is_wp_error($url) ? $url : null), $language->slug);
 	}
 
 	/*

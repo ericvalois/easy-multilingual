@@ -29,8 +29,8 @@ class EML_OLT_Manager {
 		add_filter('gettext_with_context', array(&$this, 'gettext_with_context'), 10, 4);
 
 		// loads text domains
-		add_action('pll_language_defined', array(&$this, 'load_textdomains'), 2); // after EML_Frontend::pll_language_defined
-		add_action('pll_no_language_defined', array(&$this, 'load_textdomains'));
+		add_action('eml_language_defined', array(&$this, 'load_textdomains'), 2); // after EML_Frontend::eml_language_defined
+		add_action('eml_no_language_defined', array(&$this, 'load_textdomains'));
 
 		// allows EasyMultilingual to be the first plugin loaded ;-)
 		add_filter('pre_update_option_active_plugins', array(&$this, 'make_easyMultilingual_first'));
@@ -75,7 +75,7 @@ class EML_OLT_Manager {
 		}
 
 		// allow plugins to translate text the same way we do for post types and taxonomies labels
-		do_action_ref_array('pll_translate_labels', array(&$this->labels));
+		do_action_ref_array('eml_translate_labels', array(&$this->labels));
 
 		// free memory
 		unset($this->default_locale, $this->list_textdomains, $this->labels);

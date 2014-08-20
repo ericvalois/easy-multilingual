@@ -20,7 +20,7 @@ class EML_Choose_Lang_Url extends EML_Choose_lang {
 	public function __construct(&$easyMultilingual) {
 		parent::__construct($easyMultilingual);
 
-		if (!did_action('pll_language_defined'))
+		if (!did_action('eml_language_defined'))
 			$this->set_language_from_url();
 	}
 

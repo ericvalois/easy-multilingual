@@ -35,14 +35,14 @@ class EML_Admin_Model extends EML_Model {
 		$r = wp_insert_term($args['name'], 'language', array('slug' => $args['slug'], 'description' => $description));
 		if (is_wp_error($r)) {
 			// avoid an ugly fatal error if something went wrong (reported once in the forum)
-			add_settings_error('general', 'pll_add_language', __('Impossible to add the language.', 'easyMultilingual'));
+			add_settings_error('general', 'eml_add_language', __('Impossible to add the language.', 'easyMultilingual'));
 			return false;
 		}
 		wp_update_term((int) $r['term_id'], 'language', array('term_group' => $args['term_group'])); // can't set the term group directly in wp_insert_term
 
 		// the term_language taxonomy
 		// don't want shared terms so use a different slug
-		wp_insert_term($args['name'], 'term_language', array('slug' => 'pll_' . $args['slug']));
+		wp_insert_term($args['name'], 'term_language', array('slug' => 'eml_' . $args['slug']));
 
 		$this->clean_languages_cache(); // udpate the languages list now !
 
@@ -59,7 +59,7 @@ class EML_Admin_Model extends EML_Model {
 
 		flush_rewrite_rules(); // refresh rewrite rules
 
-		add_settings_error('general', 'pll_languages_created', __('Language added.', 'easyMultilingual'), 'updated');
+		add_settings_error('general', 'eml_languages_created', __('Language added.', 'easyMultilingual'), 'updated');
 		return true;
 	}
 
@@ -118,8 +118,8 @@ class EML_Admin_Model extends EML_Model {
 				$number = $widget['params'][0]['number'];
 				if (is_object($obj) && method_exists($obj, 'get_settings') && method_exists($obj, 'save_settings')) {
 					$settings = $obj->get_settings();
-					if (isset($settings[$number]['pll_lang']) && $settings[$number]['pll_lang'] == $lang->slug) {
-						unset($settings[$number]['pll_lang']);
+					if (isset($settings[$number]['eml_lang']) && $settings[$number]['eml_lang'] == $lang->slug) {
+						unset($settings[$number]['eml_lang']);
 						$obj->save_settings($settings);
 					}
 				}
@@ -139,7 +139,7 @@ class EML_Admin_Model extends EML_Model {
 		// delete users options
 		foreach (get_users(array('fields' => 'ID')) as $user_id) {
 			delete_user_meta($user_id, 'user_lang', $lang->locale);
-			delete_user_meta($user_id, 'pll_filter_content', $lang->slug);
+			delete_user_meta($user_id, 'eml_filter_content', $lang->slug);
 			delete_user_meta($user_id, 'description_'.$lang->slug);
 		}
 
@@ -173,7 +173,7 @@ class EML_Admin_Model extends EML_Model {
 
 		update_option('easyMultilingual', $this->options);
 		flush_rewrite_rules(); // refresh rewrite rules
-		add_settings_error('general', 'pll_languages_deleted', __('Language deleted.', 'easyMultilingual'), 'updated');
+		add_settings_error('general', 'eml_languages_deleted', __('Language deleted.', 'easyMultilingual'), 'updated');
 	}
 
 	/*
@@ -213,8 +213,8 @@ class EML_Admin_Model extends EML_Model {
 					$number = $widget['params'][0]['number'];
 					if (is_object($obj) && method_exists($obj, 'get_settings') && method_exists($obj, 'save_settings')) {
 						$settings = $obj->get_settings();
-						if (isset($settings[$number]['pll_lang']) && $settings[$number]['pll_lang'] == $old_slug) {
-							$settings[$number]['pll_lang'] = $slug;
+						if (isset($settings[$number]['eml_lang']) && $settings[$number]['eml_lang'] == $old_slug) {
+							$settings[$number]['eml_lang'] = $slug;
 							$obj->save_settings($settings);
 						}
 					}
@@ -250,11 +250,11 @@ class EML_Admin_Model extends EML_Model {
 		// and finally update the language itself
 		$description = serialize(array('locale' => $args['locale'], 'rtl' => $args['rtl']));
 		wp_update_term((int) $lang->term_id, 'language', array('slug' => $slug, 'name' => $args['name'], 'description' => $description, 'term_group' => $args['term_group']));
-		wp_update_term((int) $lang->tl_term_id, 'term_language', array('slug' => 'pll_' . $slug, 'name' =>  $args['name']));
+		wp_update_term((int) $lang->tl_term_id, 'term_language', array('slug' => 'eml_' . $slug, 'name' =>  $args['name']));
 
 		$this->clean_languages_cache();
 		flush_rewrite_rules(); // refresh rewrite rules
-		add_settings_error('general', 'pll_languages_updated', __('Language updated.', 'easyMultilingual'), 'updated');
+		add_settings_error('general', 'eml_languages_updated', __('Language updated.', 'easyMultilingual'), 'updated');
 		return true;
 	}
 
@@ -271,19 +271,19 @@ class EML_Admin_Model extends EML_Model {
 	protected function validate_lang($args, $lang = null) {
 		// validate locale
 		if ( !preg_match('#^[A-Za-z_]+$#', $args['locale']))
-			add_settings_error('general', 'pll_invalid_locale', __('Enter a valid WordPress locale', 'easyMultilingual'));
+			add_settings_error('general', 'eml_invalid_locale', __('Enter a valid WordPress locale', 'easyMultilingual'));
 
 		// validate slug characters
 		if (!preg_match('#^[a-z_-]+$#', $args['slug']))
-			add_settings_error('general', 'pll_invalid_slug', __('The language code contains invalid characters', 'easyMultilingual'));
+			add_settings_error('general', 'eml_invalid_slug', __('The language code contains invalid characters', 'easyMultilingual'));
 
 		// validate slug is unique
 		if ($this->get_language($args['slug']) && ($lang === null || (isset($lang) && $lang->slug != $args['slug'])))
-			add_settings_error('general', 'pll_non_unique_slug', __('The language code must be unique', 'easyMultilingual'));
+			add_settings_error('general', 'eml_non_unique_slug', __('The language code must be unique', 'easyMultilingual'));
 
 		// validate name
 		if ($args['name'] == '')
-			add_settings_error('general', 'pll_invalid_name',  __('The language must have a name', 'easyMultilingual'));
+			add_settings_error('general', 'eml_invalid_name',  __('The language must have a name', 'easyMultilingual'));
 
 		return get_settings_errors() ? false : true;
 	}
@@ -339,7 +339,7 @@ class EML_Admin_Model extends EML_Model {
 		$tr_terms = get_objects_in_term($groups, 'term_language');
 		$terms = array_unique(array_diff($terms, $tr_terms)); // array_unique to avoid duplicates if a term is in more than one taxonomy
 
-		return apply_filters('pll_get_objects_with_no_lang', empty($posts) && empty($terms) ? false : array('posts' => $posts, 'terms' => $terms));
+		return apply_filters('eml_get_objects_with_no_lang', empty($posts) && empty($terms) ? false : array('posts' => $posts, 'terms' => $terms));
 	}
 
 	/*

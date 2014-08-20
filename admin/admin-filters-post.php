@@ -28,7 +28,7 @@ class EML_Admin_Filters_Post extends EML_Admin_Filters_Post_Base {
 
 		// ajax response for changing the language in the post metabox
 		add_action('wp_ajax_post_lang_choice', array(&$this,'post_lang_choice'));
-		add_action('wp_ajax_pll_posts_not_translated', array(&$this,'ajax_posts_not_translated'));
+		add_action('wp_ajax_eml_posts_not_translated', array(&$this,'ajax_posts_not_translated'));
 
 		// adds actions and filters related to languages when creating, saving or deleting posts and pages
 		add_action('save_post', array(&$this, 'save_post'), 21, 3); // priority 21 to come after advanced custom fields (20) and before the event calendar which breaks everything after 25
@@ -58,7 +58,7 @@ class EML_Admin_Filters_Post extends EML_Admin_Filters_Post_Base {
 
 		if (isset($qvars['post_type']) && !isset($qvars['lang'])) {
 			// filters the list of media (or wp-links) by language when uploading from post
-			if (isset($_REQUEST['pll_post_id']) && $lang = $this->model->get_post_language($_REQUEST['pll_post_id']))
+			if (isset($_REQUEST['eml_post_id']) && $lang = $this->model->get_post_language($_REQUEST['eml_post_id']))
 				$query->set('lang', $lang->slug);
 
 			elseif (!empty($this->curlang))
@@ -97,7 +97,7 @@ class EML_Admin_Filters_Post extends EML_Admin_Filters_Post_Base {
 
 		$dropdown = new EML_Walker_Dropdown();
 
-		wp_nonce_field('pll_language', '_pll_nonce');
+		wp_nonce_field('eml_language', '_eml_nonce');
         
         
         echo $this->createTranslationTabs($post_id, $lang);
@@ -128,7 +128,7 @@ class EML_Admin_Filters_Post extends EML_Admin_Filters_Post_Base {
             <h2 class="nav-tab-wrapper" style="padding-bottom:0px;">    
                 
                 <?php 
-                    wp_nonce_field('pll_language', '_pll_nonce');      
+                    wp_nonce_field('eml_language', '_eml_nonce');      
                 
                     foreach($this->model->get_languages_list() as $language) {
                         
@@ -192,7 +192,7 @@ class EML_Admin_Filters_Post extends EML_Admin_Filters_Post_Base {
 	 * @since 0.2
 	 */
 	public function post_lang_choice() {
-		check_ajax_referer('pll_language', '_pll_nonce');
+		check_ajax_referer('eml_language', '_eml_nonce');
 
 		global $post_ID; // obliged to use the global variable for wp_popular_terms_checklist
 		$post_ID = $_POST['post_id'];
@@ -260,7 +260,7 @@ class EML_Admin_Filters_Post extends EML_Admin_Filters_Post_Base {
 	 * @since 1.5
 	 */
 	public function ajax_posts_not_translated() {
-		check_ajax_referer('pll_language', '_pll_nonce');
+		check_ajax_referer('eml_language', '_eml_nonce');
 
 		$posts = get_posts(array(
 			's'                => $_REQUEST['term'],
@@ -286,7 +286,7 @@ class EML_Admin_Filters_Post extends EML_Admin_Filters_Post_Base {
 		}
 
 		// add current translation in list
-		if ($post_id = $this->model->get_translation('post', $_REQUEST['pll_post_id'],$_REQUEST['translation_language'])) {
+		if ($post_id = $this->model->get_translation('post', $_REQUEST['eml_post_id'],$_REQUEST['translation_language'])) {
 			$post = get_post($post_id);
 			array_unshift($return, array(
 				'id' => $post_id,
@@ -313,7 +313,7 @@ class EML_Admin_Filters_Post extends EML_Admin_Filters_Post_Base {
 
 		// edit post
 		if (isset($_REQUEST['post_lang_choice'])) {
-			check_admin_referer('pll_language', '_pll_nonce');
+			check_admin_referer('eml_language', '_eml_nonce');
 			$this->model->set_post_language($post_id, $lang = $_REQUEST['post_lang_choice']);
 		}
 
@@ -395,7 +395,7 @@ class EML_Admin_Filters_Post extends EML_Admin_Filters_Post_Base {
 		else
 			$this->set_default_language($post_id);
 			
-		do_action('pll_save_post', $post_id, $post, empty($translations) ? $this->model->get_translations('post', $post_id) : $translations);
+		do_action('eml_save_post', $post_id, $post, empty($translations) ? $this->model->get_translations('post', $post_id) : $translations);
 	}
 
 	/*
@@ -439,7 +439,7 @@ class EML_Admin_Filters_Post extends EML_Admin_Filters_Post_Base {
 	 */
 	public function edit_translation_link($post_id) {
 		return sprintf(
-			'<a href="%1$s" class="pll_icon_edit" title="%2$s"></a>',
+			'<a href="%1$s" class="eml_icon_edit" title="%2$s"></a>',
 			esc_url(get_edit_post_link($post_id)),
 			__('Edit', 'easyMultilingual')
 		);

@@ -58,9 +58,9 @@ This file contains only old changelog. See readme.txt for newer versions.
 * Add specific management of translated featured tag in Twenty Fourteen
 * Add the possibility not to cache homepage urls with option EML_CACHE_HOME_URL (for users having several domains).
 * The function get_pages is now filtered by language
-* Ajax requests on frontend are now automatically detected. It is no more necessary to set 'pll_load_front' :)
+* Ajax requests on frontend are now automatically detected. It is no more necessary to set 'eml_load_front' :)
 * Various performance improvements
-* 'pll_get_post_types' and 'pll_get_taxonomies' filters must be added *before* 'after_setup_theme' is fired
+* 'eml_get_post_types' and 'eml_get_taxonomies' filters must be added *before* 'after_setup_theme' is fired
 * Pre 1.2 data will be removed from DB at first upgrade at least 60 days after upgrade to 1.4
 * Removed some duplicate code between admin and frontend
 * Bug correction: incorrect pagination when using domains or subdomains
@@ -79,7 +79,7 @@ This file contains only old changelog. See readme.txt for newer versions.
 * The "Detect browser language" option does now also controls returning visits (based on cookie).
 * Improved performance by optimizing some queries for WP 3.5+
 * The user biography in default language is now stored in default WordPress usermeta
-* Add language parameter in API function pll_home_url and allow to call it on admin side
+* Add language parameter in API function eml_home_url and allow to call it on admin side
 * Calling 'get_terms' with the 'lang' parameter now uses a cache object per language
 * Bug correction: conflict with unstranslated taxonomies
 * Bug correction: possible malformed translation archive url in language switcher
@@ -112,7 +112,7 @@ This file contains only old changelog. See readme.txt for newer versions.
 * Remove Jetpack infinite scroll compatibility code as it seems useless with new EasyMultilingual 1.2 code structure
 * Bug correction: fatal error when doing ajax on frontend
 * Bug correction: ICL_LANGUAGE_CODE incorrectly defined when doing ajax on frontend
-* Bug correction: ['current_lang'] and ['no-translation'] indexes disappeared from pll_the_languages raw output
+* Bug correction: ['current_lang'] and ['no-translation'] indexes disappeared from eml_the_languages raw output
 * Bug correction: invalid argument supplied for foreach() in /easyMultilingual/include/mo.php on line 57
 * Bug correction: cookie may not be correctly set
 * Bug correction: languages columns may not be displayed in custom post types and custom taxonomies tables
@@ -177,7 +177,7 @@ This version does include important changes in database. More than ever, make a 
 
 * Add Venetian language contributed by Michele Brunelli
 * Bug correction: wrong rewrite rules for non translated custom post type archives
-* Bug correction: 'post_id' parameter of pll_the_languages does not work
+* Bug correction: 'post_id' parameter of eml_the_languages does not work
 * Bug correction: warning in wp_nav_menu_objects with Artisteer generated themes
 * Bug correction: warning when used together with theme my login plugin
 * Bug correction: language slug is modified and translations are lost when creating a nav menu with the same name as a language
@@ -188,8 +188,8 @@ This version does include important changes in database. More than ever, make a 
 * Improve the compatibility with the plugins Types and The Events Calendar, and again with WordPress SEO
 * Improve performance
 * Improve html validation
-* Add 'raw' argument to 'pll_the_languages'
-* Add the filter 'pll_translation_url'
+* Add 'raw' argument to 'eml_the_languages'
+* Add the filter 'eml_translation_url'
 * Bug correction: no language is set for a (translated custom taxonomy) term when added from a (non tranlated) custom post type edit page
 * Bug correction: warning if 'get_terms' is called with a non-array 'include' argument (introduced in 1.1.1)
 * Bug correction: warning if the menu language switcher has nothing to display
@@ -197,7 +197,7 @@ This version does include important changes in database. More than ever, make a 
 = 1.1.1 (2013-05-20) =
 
 * Move nav menu language switcher split from 'wp_nav_menu_objects' to  'wp_get_nav_menu_items' filter
-* Add the filter 'pll_redirect_home'
+* Add the filter 'eml_redirect_home'
 * Automatically translate ids in 'include' argument of 'get_terms' (useful for the menus in the Suffusion theme)
 * Add compatibility with Jetpack infinite scroll
 * Bug correction: rtl text direction not set when adding the language code to all urls (introduced in 1.1)
@@ -263,10 +263,10 @@ This version does include important changes in database. More than ever, make a 
 * Now a returning visitor is redirected to its preferred language when visiting the front page in the default language
 * Add compatibility with the plugin Custom field template (copy and synchronize custom fields)
 * Improve compatibility with plugins or themes which overwrite columns in posts list table
-* Add the filter 'pll_get_flag'
+* Add the filter 'eml_get_flag'
 * Add support of 'icl_unregister_string' function from the WPML API
 * Bug correction: synchronizing custom fields breaks the plugin Advanced Custom Fields
-* Bug correction: 'pll_default_language' broken
+* Bug correction: 'eml_default_language' broken
 * Bug correction: rewrite rules are not flushed when re-activating the plugin
 * Bug correction: feed urls are not correctly escaped when using default permalinks
 * Bug correction: notice Undefined index: media_support
@@ -277,7 +277,7 @@ This version does include important changes in database. More than ever, make a 
 = 1.0.1 (2013-01-28) =
 
 * Add Swedish translation contributed by [matsii](http://wordpress.org/support/profile/matsii)
-* Add 2 new API functions : 'pll_is_translated_post_type' and 'pll_is_translated_taxonomy'
+* Add 2 new API functions : 'eml_is_translated_post_type' and 'eml_is_translated_taxonomy'
 * Bug correction: when using a static front page, the posts page is not filtered by language (introduced in 1.0)
 * Bug correction: disable translation for hard coded menu as it creates more problems than it solves (introduced in 1.0)
 
@@ -294,7 +294,7 @@ This version does include important changes in database. More than ever, make a 
 * Add options to better control the multilingual capability of custom post types and taxonomies
 * Better integration with new media management in WP 3.5
 * Improve menu translation for themes which register a theme location but don't use it in wp_nav_menu (hard coded menu)
-* Add the pll_preferred_language filter allowing plugins to modify the language set by browser preferences detection
+* Add the eml_preferred_language filter allowing plugins to modify the language set by browser preferences detection
 * Add support of the WPML config file
 * Add support of 'icl_get_languages' and 'icl_link_to_element' functions from the WPML API
 * Add compatibility with YARPP and improve compatibility with WordPress SEO
@@ -404,13 +404,13 @@ This version does include important changes in database. More than ever, make a 
 * Add the option EML_SEARCH_FORM_JS to disable the js code used to modify the search form
 * Suppress the option EML_SYNC, replaced by an option in the language settings ui
 * Suppress the EML_DISPLAY_ALL option
-* Suppress the template tag 'the_languages' (replaced by 'pll_the_languages' since v0.5)
-* Suppress the function 'pll_is_front_page' (useless since 0.8.2)
+* Suppress the template tag 'the_languages' (replaced by 'eml_the_languages' since v0.5)
+* Suppress the function 'eml_is_front_page' (useless since 0.8.2)
 * Bug correction: the browser language is sometimes not correctly detected by Android
 * Bug correction: the rtl text direction is not correct when editing an existing language
 * Bug correction: rss feed does not work if translated site title or tagline contains special characters
 * Bug correction: post types and taxonomies labels are not translated on frontend
-* Bug correction: the filter 'pll_copy_post_metas' does not work for metas with multiple values
+* Bug correction: the filter 'eml_copy_post_metas' does not work for metas with multiple values
 * Bug correction: translations table for post and terms are uselessly serialized two times
 * Bug correction: attempt to suppress conflict with themes which hardcode the name of nav menus (but do define a theme location)
 * Bug correction: homepage displays all posts when the front page displays a static page and no page is selected for front page (but one is selected for posts page)
@@ -434,7 +434,7 @@ This version does include important changes in database. More than ever, make a 
 * Validation improvement thanks to kg69design
 * Bug correction: custom post types rewrite rules are broken when registered with query_var=>false
 * Bug correction: user admin language not deleted when uninstalling the plugin
-* Bug correction: pll_current_language('name') returns locale instead of language name
+* Bug correction: eml_current_language('name') returns locale instead of language name
 * Bug correction: ajax on frontend does not work
 * Bug correction: homepage pagination broken when redirecting the language page to a static front page
 * Bug correction: taxonomies conflicts on custom post types
@@ -461,7 +461,7 @@ This version does include important changes in database. More than ever, make a 
 
 = 0.8.4 (2012-05-13) =
 
-* Add a new argument 'post_id' to the function pll_the_languages to display posts translations within the loop
+* Add a new argument 'post_id' to the function eml_the_languages to display posts translations within the loop
 * Bug correction: every posts in every languages are shown on the homepage when requesting the wrong one with or without 'www.'
 * Bug correction: every posts in every languages are shown when requesting /?p=string
 * Bug correction: the language is not correctly set for wp-signup.php and wp-activate.php
@@ -493,7 +493,7 @@ This version does include important changes in database. More than ever, make a 
 * Add Italian translation contributed by [Luca Barbetti](http://wordpress.org/support/profile/lucabarbetti)
 * Improve performance on admin side
 * Comment status and ping status are now copied when adding a new translation
-* Deprecated API function 'pll_is_front_page' as it is now useless
+* Deprecated API function 'eml_is_front_page' as it is now useless
 * Bug correction: Wrong translation url for taxonomies when adding the language information to all urls
 * Bug correction: "translation" of search page does not work if the site is only made of pages
 * Bug correction: wrong language permalink structure introduced in 0.8.1
@@ -506,8 +506,8 @@ This version does include important changes in database. More than ever, make a 
 
 * Add Latvian translation contributed by [@AndyDeGroo](http://twitter.com/AndyDeGroo)
 * It is now possible to synchronize multiple values for custom fields
-* Add new API function pll_current_language
-* Add the pll_rewrite_rules filter allowing plugins to filter rewrite rules by language
+* Add new API function eml_current_language
+* Add the eml_rewrite_rules filter allowing plugins to filter rewrite rules by language
 * WP 3.4 preparation: disable the menu section in the customize theme admin panel (unusable with EasyMultilingual)
 * Bug correction: removing 'language' in permalinks does not work in WP 3.4 alpha
 * Bug correction: problems with custom post type archives when 'has_archive' is set (thanks to AndyDeGroo)
@@ -521,9 +521,9 @@ This version does include important changes in database. More than ever, make a 
 * Sticky posts are now filtered by language
 * It is now possible to use the language page as home page
 * Add an "About EasyMultilingual" metabox on the languages admin page
-* Add the pll_the_languages filter allowing to filter the whole output of the language switcher
-* Add a new argument 'display_names_as' to the function pll_the_languages
-* Add pll_get_post_types & pll_get_taxonomies filters allowing to enable / disable the language filter for post types & taxonomies
+* Add the eml_the_languages filter allowing to filter the whole output of the language switcher
+* Add a new argument 'display_names_as' to the function eml_the_languages
+* Add eml_get_post_types & eml_get_taxonomies filters allowing to enable / disable the language filter for post types & taxonomies
 * Add ckb to predefined languages list
 * Completely reworked the string translation storage in the database
 * Some performance improvements on admin side
@@ -565,7 +565,7 @@ This version does include important changes in database. More than ever, make a 
 * Allow using 3 characters languages codes (ISO 639-2 or 639-3)
 * The predefined languages dropdown list now displays the locale to help differentiate some languages
 * Add 5 new languages to predefined list
-* Bug correction: the filter 'pll_copy_post_metas' does not work
+* Bug correction: the filter 'eml_copy_post_metas' does not work
 * Bug correction: impossible to add a tag in the edit post panel
 * Bug correction: rewrite rules not correct
 * Bug correction: cache issue with css and js files
@@ -582,8 +582,8 @@ This version does include important changes in database. More than ever, make a 
 * Add support for post formats
 * Add option allowing not to show the current language in the language switcher (for both menu and widget)
 * Add a title attribute (and the possibility to personalize it with a filter) to flags
-* pll_get_post and pll_get_term second parameter is now optional and defaults to current language
-* Add pll_the_language_link filter allowing to filter translation links outputed by the language switcher
+* eml_get_post and eml_get_term second parameter is now optional and defaults to current language
+* Add eml_the_language_link filter allowing to filter translation links outputed by the language switcher
 * The option EML_DISPLAY_ALL is no longer supported
 * Bug correction: Autosave reset to default language
 * Bug correction: blog info not translated in feeds
@@ -616,7 +616,7 @@ This version does include important changes in database. More than ever, make a 
 * Translations are now accessibles in the "Posts", "Pages", "Categories" and "Post tags" admin panels
 * Improve the dropdown language switcher widget (sends now to translated page or home page based on options)
 * Move custom flags from easyMultilingual/local_flags to wp_content/easyMultilingual
-* Add two options to "pll_the_languages" ('hide_if_no_translation' and 'hide_current'). *The function does not output ul tag anymore*
+* Add two options to "eml_the_languages" ('hide_if_no_translation' and 'hide_current'). *The function does not output ul tag anymore*
 * Improve API
 * Bug correction: Twenty eleven custom Header problem with v0.5.1
 * Bug correction: front-page.php not loaded for translated front page

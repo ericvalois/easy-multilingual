@@ -51,7 +51,7 @@ class EML_Admin_Filters extends EML_Filters {
 				array(
 					'name'        => $widget->id.'_lang_choice',
 					'class'       => 'tags-input',
-					'selected'    => empty($instance['pll_lang']) ? '' : $instance['pll_lang']
+					'selected'    => empty($instance['eml_lang']) ? '' : $instance['eml_lang']
 				)
 			)
 		);
@@ -71,9 +71,9 @@ class EML_Admin_Filters extends EML_Filters {
 	 */
 	public function widget_update_callback($instance, $new_instance, $old_instance, $widget) {
 		if (!empty($_POST[$widget->id.'_lang_choice']))
-			$instance['pll_lang'] = $_POST[$widget->id.'_lang_choice'];
+			$instance['eml_lang'] = $_POST[$widget->id.'_lang_choice'];
 		else
-			unset($instance['pll_lang']);
+			unset($instance['eml_lang']);
 
 		return $instance;
 	}

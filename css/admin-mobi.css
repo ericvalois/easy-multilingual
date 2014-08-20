@@ -1,17 +1,17 @@
 /*
 FIXME rules for WP 3.8+ only -> can be merged to admin.css once support of WP 3.7 is dropped
 */
-.pll_icon_tick:before {
+.eml_icon_tick:before {
 	content: "\f147";
 }
-.pll_icon_add:before {
+.eml_icon_add:before {
 	content: "\f132";
 }
-.pll_icon_edit:before {
+.eml_icon_edit:before {
 	content: "\f464";
 }
 
-[class^="pll_icon_"], #wpadminbar #wp-admin-bar-languages .ab-icon:before {
+[class^="eml_icon_"], #wpadminbar #wp-admin-bar-languages .ab-icon:before {
 	font: 16px/1 'dashicons';
 }
 

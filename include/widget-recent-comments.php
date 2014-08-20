@@ -35,7 +35,7 @@ class EML_Widget_Recent_Comments extends WP_Widget_Recent_Comments {
 		if ( ! isset( $args['widget_id'] ) )
 			$args['widget_id'] = $this->id;
 
-		$lang = pll_current_language(); #added
+		$lang = eml_current_language(); #added
 		if ( isset( $cache[ $args['widget_id'] ] [$lang] ) ) { #modified#
 			echo $cache[ $args['widget_id'] ] [$lang]; #modified#
 			return;

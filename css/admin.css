@@ -9,11 +9,11 @@
 }
 
 /* about EasyMultilingual metabox */
-#pll_about_box p {
+#eml_about_box p {
 	text-align: justify;
 }
 
-#pll_about_box input {
+#eml_about_box input {
 	margin: 0;
 	padding: 0;
 	float: right;
@@ -43,21 +43,21 @@
 }
 
 /* settings */
-.pll_inline_block {
+.eml_inline_block {
 	margin: 0;
 }
 
-.pll_inline_block li {
+.eml_inline_block li {
 	display: inline-block;
 	margin: 0;
 	width: 250px;
 }
 
-#pll-domains-table td {
+#eml-domains-table td {
 	padding: 2px 2px 2px 1.5em;
 }
 
-#pll-force-lang .description {
+#eml-force-lang .description {
 	margin-top: 0;
 	margin-bottom: 0.5em;
 }
@@ -77,7 +77,7 @@ th[class*='column-language_'] {
 	text-decoration: none;
 }
 
-#post-translations .pll-language-column, #post-translations .pll-edit-column {
+#post-translations .eml-language-column, #post-translations .eml-edit-column {
 	width: 10%;
 }
 
@@ -92,12 +92,12 @@ th[class*='column-language_'] {
 	width: auto;
 }
 
-.pll-edit-column {
+.eml-edit-column {
 	text-align: center;
 }
 
 /* specific case for media */
-#post-translations .pll-media-language-column {
+#post-translations .eml-media-language-column {
 	width: 60%;
 }
 
@@ -106,12 +106,12 @@ th[class*='column-language_'] {
 	width: 95%;
 }
 
-#term-translations .pll-language-column {
+#term-translations .eml-language-column {
   line-height: 28px;
   width: 20%;
 }
 
-#term-translations .pll-edit-column {
+#term-translations .eml-edit-column {
   width: 10%;
 }
 
@@ -132,17 +132,17 @@ th[class*='column-language_'] {
 	font-style: normal;
 }
 
-.pll_icon_tick:before {
+.eml_icon_tick:before {
 	content: "\e600";
 }
-.pll_icon_add:before {
+.eml_icon_add:before {
 	content: "\e601";
 }
-.pll_icon_edit:before {
+.eml_icon_edit:before {
 	content: "\e602";
 }
 
-[class^="pll_icon_"], #wpadminbar #wp-admin-bar-languages .ab-icon:before {
+[class^="eml_icon_"], #wpadminbar #wp-admin-bar-languages .ab-icon:before {
 	font-family: 'easyMultilingual';
 }
 
