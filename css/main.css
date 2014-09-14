@@ -1,0 +1,108 @@
+
+
+/* ==========================================================================
+   Author's custom styles
+   ========================================================================== */
+
+
+* { box-sizing: border-box; -moz-box-sizing: border-box; } /* Fix box sizing bug*/
+
+img { max-width: 100% !important; display: block;}
+
+body{
+	background: #fff;
+	color: #000;
+	font: 14px 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	padding: 0;
+}
+
+
+#header{
+	height: 100px;
+}
+
+#logo{
+	float: left;
+	margin: 25px 0 0 0;
+}
+
+#lang{
+	float: right;
+	margin: 40px 0 0 0;
+	font-size: 14px;
+	font-weight: bold;
+	text-transform: uppercase;
+	color: #1b1f23;
+}
+
+#jombotron{
+	padding: 100px 0;
+	background-color: #f2f2f1;
+}
+
+#jombotron img{
+	float: right;
+}
+
+h1{
+	font-size: 36px;
+	color: #202428;
+	font-weight: bold;
+	margin-top: 30px;
+}
+
+#jombotron p{
+	font-size: 24px;
+	color: #979898;
+	margin: 30px 0;
+}
+
+#mc_embed_signup input[type="email"]{
+	width: 100%;
+	border: none;
+	background-color: #fff;
+	height: 45px;
+	padding: 0 10px;
+}
+
+#mc_embed_signup input[type="submit"]{
+	width: 100%;
+	border: none;
+	background-color: #0073a2;
+	height: 45px;
+	text-align: center;
+	font-weight: bold;
+	font-size: 15px;
+	margin: 10px 0 15px 0;
+	color: #fff;
+
+}
+
+/* Content!
+-------------------------------------------------------------------------------*/
+
+/* Hack EX .ie7 .container{ margin: 0; }
+-------------------------------------------------------------------------------*/
+
+/* Media Query
+-------------------------------------------------------------------------------*/
+
+// usually 1200px
+@media (max-width: @screen-lg-desktop) {
+
+}
+
+// usually 992px
+@media (max-width: @screen-desktop) {
+	
+}
+
+// usually 768px
+@media (max-width: @screen-tablet) {
+
+}
+
+// usually 480px
+@media (max-width: @screen-phone) {
+
+}
